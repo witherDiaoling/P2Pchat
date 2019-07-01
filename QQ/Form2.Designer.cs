@@ -32,17 +32,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.friendsList = new System.Windows.Forms.Panel();
             this.NoListLabel = new System.Windows.Forms.Label();
-            this.NoListPicture = new System.Windows.Forms.PictureBox();
             this.backGround = new System.Windows.Forms.Panel();
             this.nomessageLabel = new System.Windows.Forms.Label();
-            this.sendFiles = new System.Windows.Forms.Button();
             this.friendDOWNlabel = new System.Windows.Forms.Label();
             this.showFriendName = new System.Windows.Forms.Label();
-            this.sendChatButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.inputRichTextbox = new System.Windows.Forms.RichTextBox();
             this.chatRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.talkBackground = new System.Windows.Forms.PictureBox();
             this.SaveAllrichTextBox = new System.Windows.Forms.RichTextBox();
             this.timerOpen = new System.Windows.Forms.Timer(this.components);
             this.timerClose = new System.Windows.Forms.Timer(this.components);
@@ -59,10 +55,19 @@
             this.UIDlabel = new System.Windows.Forms.Label();
             this.UIDtext = new System.Windows.Forms.TextBox();
             this.userName = new System.Windows.Forms.TextBox();
-            this.head = new System.Windows.Forms.PictureBox();
             this.timershowDOWN = new System.Windows.Forms.Timer(this.components);
             this.timerNomessage = new System.Windows.Forms.Timer(this.components);
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.FilePanel = new System.Windows.Forms.Panel();
+            this.openReceivePathpanel = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.PercentagePanel = new System.Windows.Forms.Panel();
+            this.YiwanchengLabel = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.baifenbiLabel = new System.Windows.Forms.Label();
+            this.sendFriendName = new System.Windows.Forms.Label();
+            this.zhengzai = new System.Windows.Forms.Label();
+            this.setSavePath = new System.Windows.Forms.Button();
             this.conformSend = new System.Windows.Forms.Button();
             this.filePathTextbox = new System.Windows.Forms.TextBox();
             this.showRefuselabel = new System.Windows.Forms.Label();
@@ -70,23 +75,43 @@
             this.NObutton = new System.Windows.Forms.Button();
             this.OKbutton = new System.Windows.Forms.Button();
             this.RequestOKorNOlabel = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.selectFile = new System.Windows.Forms.Button();
             this.sendFileLbael = new System.Windows.Forms.Label();
+            this.timerHideRefuselabel = new System.Windows.Forms.Timer(this.components);
+            this.timerSendPercentage = new System.Windows.Forms.Timer(this.components);
+            this.timerRecivePercentage = new System.Windows.Forms.Timer(this.components);
+            this.SendBackground = new System.ComponentModel.BackgroundWorker();
+            this.ReciveBackground = new System.ComponentModel.BackgroundWorker();
+            this.timerSendSuccessSwitch = new System.Windows.Forms.Timer(this.components);
+            this.stopSendButton = new System.Windows.Forms.Button();
+            this.sendFilecancel = new System.Windows.Forms.Label();
+            this.timersetSendStop = new System.Windows.Forms.Timer(this.components);
+            this.timerReceiveStopSwitch = new System.Windows.Forms.Timer(this.components);
+            this.timerReceiveStopSwitch1 = new System.Windows.Forms.Timer(this.components);
+            this.button2 = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.close1 = new System.Windows.Forms.Button();
             this.openButtenList = new System.Windows.Forms.Button();
-            this.talkList = new System.Windows.Forms.Button();
-            this.Friends = new System.Windows.Forms.Button();
-            this.timerHideRefuselabel = new System.Windows.Forms.Timer(this.components);
-            this.setSavePath = new System.Windows.Forms.Button();
+            this.head = new System.Windows.Forms.PictureBox();
+            this.NoListPicture = new System.Windows.Forms.PictureBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.sendFiles = new System.Windows.Forms.Button();
+            this.sendChatButton = new System.Windows.Forms.Button();
+            this.talkBackground = new System.Windows.Forms.PictureBox();
+            this.fileLengthLabel = new System.Windows.Forms.Label();
+            this.timerspeed = new System.Windows.Forms.Timer(this.components);
+            this.speedLabel = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.friendsList.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NoListPicture)).BeginInit();
             this.backGround.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.talkBackground)).BeginInit();
             this.buttonBack.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.head)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.FilePanel.SuspendLayout();
+            this.openReceivePathpanel.SuspendLayout();
+            this.PercentagePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.head)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NoListPicture)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.talkBackground)).BeginInit();
             this.SuspendLayout();
             // 
             // friendsList
@@ -113,21 +138,10 @@
             this.NoListLabel.TabIndex = 23;
             this.NoListLabel.Text = "列表为空";
             // 
-            // NoListPicture
-            // 
-            this.NoListPicture.BackColor = System.Drawing.Color.Transparent;
-            this.NoListPicture.BackgroundImage = global::QQ.Properties.Resources.robo002;
-            this.NoListPicture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.NoListPicture.InitialImage = null;
-            this.NoListPicture.Location = new System.Drawing.Point(109, 225);
-            this.NoListPicture.Name = "NoListPicture";
-            this.NoListPicture.Size = new System.Drawing.Size(231, 210);
-            this.NoListPicture.TabIndex = 22;
-            this.NoListPicture.TabStop = false;
-            // 
             // backGround
             // 
             this.backGround.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(28)))), ((int)(((byte)(33)))));
+            this.backGround.Controls.Add(this.button4);
             this.backGround.Controls.Add(this.nomessageLabel);
             this.backGround.Controls.Add(this.sendFiles);
             this.backGround.Controls.Add(this.friendDOWNlabel);
@@ -155,25 +169,6 @@
             this.nomessageLabel.Text = "不能发送空白消息";
             this.nomessageLabel.Visible = false;
             // 
-            // sendFiles
-            // 
-            this.sendFiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(28)))), ((int)(((byte)(33)))));
-            this.sendFiles.BackgroundImage = global::QQ.Properties.Resources.文件;
-            this.sendFiles.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.sendFiles.FlatAppearance.BorderSize = 0;
-            this.sendFiles.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MediumTurquoise;
-            this.sendFiles.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Teal;
-            this.sendFiles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.sendFiles.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.sendFiles.ForeColor = System.Drawing.Color.White;
-            this.sendFiles.Location = new System.Drawing.Point(722, 812);
-            this.sendFiles.Name = "sendFiles";
-            this.sendFiles.Size = new System.Drawing.Size(80, 54);
-            this.sendFiles.TabIndex = 30;
-            this.sendFiles.UseVisualStyleBackColor = false;
-            this.sendFiles.Visible = false;
-            this.sendFiles.Click += new System.EventHandler(this.SendFiles_Click);
-            // 
             // friendDOWNlabel
             // 
             this.friendDOWNlabel.Font = new System.Drawing.Font("微软雅黑", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -197,26 +192,6 @@
             this.showFriendName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.showFriendName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ShouFriendName_MouseDown);
             // 
-            // sendChatButton
-            // 
-            this.sendChatButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(28)))), ((int)(((byte)(33)))));
-            this.sendChatButton.BackgroundImage = global::QQ.Properties.Resources.发送__1_;
-            this.sendChatButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.sendChatButton.FlatAppearance.BorderSize = 0;
-            this.sendChatButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MediumTurquoise;
-            this.sendChatButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Teal;
-            this.sendChatButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.sendChatButton.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.sendChatButton.ForeColor = System.Drawing.Color.White;
-            this.sendChatButton.Location = new System.Drawing.Point(828, 812);
-            this.sendChatButton.Name = "sendChatButton";
-            this.sendChatButton.Size = new System.Drawing.Size(80, 54);
-            this.sendChatButton.TabIndex = 28;
-            this.sendChatButton.UseVisualStyleBackColor = false;
-            this.sendChatButton.Visible = false;
-            this.sendChatButton.Click += new System.EventHandler(this.SendChatButton_Click);
-            this.sendChatButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SendChatButton_KeyPress);
-            // 
             // label2
             // 
             this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(117)))));
@@ -235,7 +210,7 @@
             this.inputRichTextbox.Location = new System.Drawing.Point(0, 650);
             this.inputRichTextbox.Name = "inputRichTextbox";
             this.inputRichTextbox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.inputRichTextbox.Size = new System.Drawing.Size(954, 159);
+            this.inputRichTextbox.Size = new System.Drawing.Size(956, 159);
             this.inputRichTextbox.TabIndex = 26;
             this.inputRichTextbox.Text = "";
             this.inputRichTextbox.Visible = false;
@@ -256,19 +231,6 @@
             this.chatRichTextBox.Text = "";
             this.chatRichTextBox.Visible = false;
             this.chatRichTextBox.TextChanged += new System.EventHandler(this.ChatRichTextBox_TextChanged);
-            // 
-            // talkBackground
-            // 
-            this.talkBackground.BackColor = System.Drawing.Color.Transparent;
-            this.talkBackground.BackgroundImage = global::QQ.Properties.Resources.CytusII;
-            this.talkBackground.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.talkBackground.InitialImage = null;
-            this.talkBackground.Location = new System.Drawing.Point(155, 196);
-            this.talkBackground.Name = "talkBackground";
-            this.talkBackground.Size = new System.Drawing.Size(658, 414);
-            this.talkBackground.TabIndex = 18;
-            this.talkBackground.TabStop = false;
-            this.talkBackground.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TalkBackground1_MouseDown);
             // 
             // SaveAllrichTextBox
             // 
@@ -468,17 +430,6 @@
             this.userName.Size = new System.Drawing.Size(150, 33);
             this.userName.TabIndex = 27;
             // 
-            // head
-            // 
-            this.head.BackColor = System.Drawing.Color.Transparent;
-            this.head.BackgroundImage = global::QQ.Properties.Resources.aroma;
-            this.head.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.head.Location = new System.Drawing.Point(3, 3);
-            this.head.Name = "head";
-            this.head.Size = new System.Drawing.Size(67, 73);
-            this.head.TabIndex = 26;
-            this.head.TabStop = false;
-            // 
             // timershowDOWN
             // 
             this.timershowDOWN.Interval = 1500;
@@ -489,24 +440,155 @@
             this.timerNomessage.Interval = 1000;
             this.timerNomessage.Tick += new System.EventHandler(this.TimerNomessage_Tick);
             // 
-            // panel1
+            // FilePanel
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(28)))), ((int)(((byte)(43)))));
-            this.panel1.Controls.Add(this.setSavePath);
-            this.panel1.Controls.Add(this.conformSend);
-            this.panel1.Controls.Add(this.filePathTextbox);
-            this.panel1.Controls.Add(this.showRefuselabel);
-            this.panel1.Controls.Add(this.requestButton);
-            this.panel1.Controls.Add(this.NObutton);
-            this.panel1.Controls.Add(this.OKbutton);
-            this.panel1.Controls.Add(this.RequestOKorNOlabel);
-            this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Controls.Add(this.selectFile);
-            this.panel1.Controls.Add(this.sendFileLbael);
-            this.panel1.Location = new System.Drawing.Point(1484, 1);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(407, 876);
-            this.panel1.TabIndex = 28;
+            this.FilePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(28)))), ((int)(((byte)(43)))));
+            this.FilePanel.Controls.Add(this.fileLengthLabel);
+            this.FilePanel.Controls.Add(this.sendFilecancel);
+            this.FilePanel.Controls.Add(this.openReceivePathpanel);
+            this.FilePanel.Controls.Add(this.stopSendButton);
+            this.FilePanel.Controls.Add(this.PercentagePanel);
+            this.FilePanel.Controls.Add(this.sendFriendName);
+            this.FilePanel.Controls.Add(this.zhengzai);
+            this.FilePanel.Controls.Add(this.setSavePath);
+            this.FilePanel.Controls.Add(this.conformSend);
+            this.FilePanel.Controls.Add(this.filePathTextbox);
+            this.FilePanel.Controls.Add(this.showRefuselabel);
+            this.FilePanel.Controls.Add(this.requestButton);
+            this.FilePanel.Controls.Add(this.NObutton);
+            this.FilePanel.Controls.Add(this.OKbutton);
+            this.FilePanel.Controls.Add(this.RequestOKorNOlabel);
+            this.FilePanel.Controls.Add(this.pictureBox1);
+            this.FilePanel.Controls.Add(this.selectFile);
+            this.FilePanel.Controls.Add(this.sendFileLbael);
+            this.FilePanel.Location = new System.Drawing.Point(1484, 1);
+            this.FilePanel.Name = "FilePanel";
+            this.FilePanel.Size = new System.Drawing.Size(407, 876);
+            this.FilePanel.TabIndex = 28;
+            // 
+            // openReceivePathpanel
+            // 
+            this.openReceivePathpanel.Controls.Add(this.button2);
+            this.openReceivePathpanel.Controls.Add(this.button1);
+            this.openReceivePathpanel.Controls.Add(this.label3);
+            this.openReceivePathpanel.Location = new System.Drawing.Point(0, 246);
+            this.openReceivePathpanel.Name = "openReceivePathpanel";
+            this.openReceivePathpanel.Size = new System.Drawing.Size(407, 227);
+            this.openReceivePathpanel.TabIndex = 34;
+            this.openReceivePathpanel.Visible = false;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Transparent;
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MediumTurquoise;
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Teal;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("微软雅黑", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(81, 141);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(251, 59);
+            this.button1.TabIndex = 47;
+            this.button1.Text = "打开文件路径";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.Button1_Click_3);
+            // 
+            // label3
+            // 
+            this.label3.Font = new System.Drawing.Font("微软雅黑 Light", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(91, 25);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(243, 66);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "传输完成";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // PercentagePanel
+            // 
+            this.PercentagePanel.Controls.Add(this.label4);
+            this.PercentagePanel.Controls.Add(this.speedLabel);
+            this.PercentagePanel.Controls.Add(this.YiwanchengLabel);
+            this.PercentagePanel.Controls.Add(this.progressBar1);
+            this.PercentagePanel.Controls.Add(this.baifenbiLabel);
+            this.PercentagePanel.Location = new System.Drawing.Point(0, 676);
+            this.PercentagePanel.Name = "PercentagePanel";
+            this.PercentagePanel.Size = new System.Drawing.Size(407, 200);
+            this.PercentagePanel.TabIndex = 33;
+            this.PercentagePanel.Visible = false;
+            // 
+            // YiwanchengLabel
+            // 
+            this.YiwanchengLabel.Font = new System.Drawing.Font("微软雅黑 Light", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.YiwanchengLabel.ForeColor = System.Drawing.Color.White;
+            this.YiwanchengLabel.Location = new System.Drawing.Point(3, 115);
+            this.YiwanchengLabel.Name = "YiwanchengLabel";
+            this.YiwanchengLabel.Size = new System.Drawing.Size(228, 62);
+            this.YiwanchengLabel.TabIndex = 1;
+            this.YiwanchengLabel.Text = "已完成";
+            this.YiwanchengLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(1, 179);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(407, 18);
+            this.progressBar1.TabIndex = 45;
+            // 
+            // baifenbiLabel
+            // 
+            this.baifenbiLabel.Font = new System.Drawing.Font("微软雅黑 Light", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.baifenbiLabel.ForeColor = System.Drawing.Color.White;
+            this.baifenbiLabel.Location = new System.Drawing.Point(237, 115);
+            this.baifenbiLabel.Name = "baifenbiLabel";
+            this.baifenbiLabel.Size = new System.Drawing.Size(167, 62);
+            this.baifenbiLabel.TabIndex = 0;
+            this.baifenbiLabel.Text = "0%";
+            this.baifenbiLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // sendFriendName
+            // 
+            this.sendFriendName.Font = new System.Drawing.Font("微软雅黑", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.sendFriendName.ForeColor = System.Drawing.Color.White;
+            this.sendFriendName.Location = new System.Drawing.Point(78, 122);
+            this.sendFriendName.Name = "sendFriendName";
+            this.sendFriendName.Size = new System.Drawing.Size(241, 36);
+            this.sendFriendName.TabIndex = 44;
+            this.sendFriendName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.sendFriendName.Visible = false;
+            // 
+            // zhengzai
+            // 
+            this.zhengzai.Font = new System.Drawing.Font("微软雅黑", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.zhengzai.ForeColor = System.Drawing.Color.White;
+            this.zhengzai.Location = new System.Drawing.Point(122, 74);
+            this.zhengzai.Name = "zhengzai";
+            this.zhengzai.Size = new System.Drawing.Size(166, 36);
+            this.zhengzai.TabIndex = 43;
+            this.zhengzai.Text = "对方用户名：";
+            this.zhengzai.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.zhengzai.Visible = false;
+            // 
+            // setSavePath
+            // 
+            this.setSavePath.BackColor = System.Drawing.Color.Transparent;
+            this.setSavePath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.setSavePath.FlatAppearance.BorderSize = 0;
+            this.setSavePath.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MediumTurquoise;
+            this.setSavePath.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Teal;
+            this.setSavePath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.setSavePath.Font = new System.Drawing.Font("微软雅黑", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.setSavePath.ForeColor = System.Drawing.Color.White;
+            this.setSavePath.Location = new System.Drawing.Point(68, 791);
+            this.setSavePath.Name = "setSavePath";
+            this.setSavePath.Size = new System.Drawing.Size(278, 59);
+            this.setSavePath.TabIndex = 42;
+            this.setSavePath.Text = "选择保存路径";
+            this.setSavePath.UseVisualStyleBackColor = false;
+            this.setSavePath.Visible = false;
+            this.setSavePath.Click += new System.EventHandler(this.SetSavePath_Click);
             // 
             // conformSend
             // 
@@ -518,7 +600,7 @@
             this.conformSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.conformSend.Font = new System.Drawing.Font("微软雅黑", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.conformSend.ForeColor = System.Drawing.Color.White;
-            this.conformSend.Location = new System.Drawing.Point(141, 657);
+            this.conformSend.Location = new System.Drawing.Point(141, 671);
             this.conformSend.Name = "conformSend";
             this.conformSend.Size = new System.Drawing.Size(126, 61);
             this.conformSend.TabIndex = 41;
@@ -533,18 +615,18 @@
             this.filePathTextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.filePathTextbox.Font = new System.Drawing.Font("微软雅黑", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.filePathTextbox.ForeColor = System.Drawing.Color.White;
-            this.filePathTextbox.Location = new System.Drawing.Point(18, 566);
+            this.filePathTextbox.Location = new System.Drawing.Point(11, 458);
             this.filePathTextbox.Multiline = true;
             this.filePathTextbox.Name = "filePathTextbox";
             this.filePathTextbox.ReadOnly = true;
-            this.filePathTextbox.Size = new System.Drawing.Size(379, 72);
+            this.filePathTextbox.Size = new System.Drawing.Size(379, 109);
             this.filePathTextbox.TabIndex = 40;
             // 
             // showRefuselabel
             // 
-            this.showRefuselabel.Font = new System.Drawing.Font("微软雅黑", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.showRefuselabel.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.showRefuselabel.ForeColor = System.Drawing.Color.White;
-            this.showRefuselabel.Location = new System.Drawing.Point(62, 320);
+            this.showRefuselabel.Location = new System.Drawing.Point(62, 252);
             this.showRefuselabel.Name = "showRefuselabel";
             this.showRefuselabel.Size = new System.Drawing.Size(300, 80);
             this.showRefuselabel.TabIndex = 39;
@@ -560,11 +642,11 @@
             this.requestButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MediumTurquoise;
             this.requestButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Teal;
             this.requestButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.requestButton.Font = new System.Drawing.Font("微软雅黑", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.requestButton.Font = new System.Drawing.Font("微软雅黑", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.requestButton.ForeColor = System.Drawing.Color.White;
-            this.requestButton.Location = new System.Drawing.Point(141, 724);
+            this.requestButton.Location = new System.Drawing.Point(128, 738);
             this.requestButton.Name = "requestButton";
-            this.requestButton.Size = new System.Drawing.Size(136, 61);
+            this.requestButton.Size = new System.Drawing.Size(159, 61);
             this.requestButton.TabIndex = 38;
             this.requestButton.Text = "发送请求";
             this.requestButton.UseVisualStyleBackColor = false;
@@ -580,7 +662,7 @@
             this.NObutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.NObutton.Font = new System.Drawing.Font("微软雅黑", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.NObutton.ForeColor = System.Drawing.Color.White;
-            this.NObutton.Location = new System.Drawing.Point(253, 403);
+            this.NObutton.Location = new System.Drawing.Point(253, 314);
             this.NObutton.Name = "NObutton";
             this.NObutton.Size = new System.Drawing.Size(90, 49);
             this.NObutton.TabIndex = 37;
@@ -599,7 +681,7 @@
             this.OKbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.OKbutton.Font = new System.Drawing.Font("微软雅黑", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.OKbutton.ForeColor = System.Drawing.Color.White;
-            this.OKbutton.Location = new System.Drawing.Point(56, 403);
+            this.OKbutton.Location = new System.Drawing.Point(56, 314);
             this.OKbutton.Name = "OKbutton";
             this.OKbutton.Size = new System.Drawing.Size(90, 49);
             this.OKbutton.TabIndex = 36;
@@ -612,22 +694,13 @@
             // 
             this.RequestOKorNOlabel.Font = new System.Drawing.Font("微软雅黑", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.RequestOKorNOlabel.ForeColor = System.Drawing.Color.White;
-            this.RequestOKorNOlabel.Location = new System.Drawing.Point(32, 273);
+            this.RequestOKorNOlabel.Location = new System.Drawing.Point(3, 205);
             this.RequestOKorNOlabel.Name = "RequestOKorNOlabel";
-            this.RequestOKorNOlabel.Size = new System.Drawing.Size(365, 38);
+            this.RequestOKorNOlabel.Size = new System.Drawing.Size(401, 38);
             this.RequestOKorNOlabel.TabIndex = 35;
             this.RequestOKorNOlabel.Text = "对方要传输文件，是否接收";
+            this.RequestOKorNOlabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.RequestOKorNOlabel.Visible = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImage = global::QQ.Properties.Resources.文件1;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox1.Location = new System.Drawing.Point(46, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(73, 56);
-            this.pictureBox1.TabIndex = 34;
-            this.pictureBox1.TabStop = false;
             // 
             // selectFile
             // 
@@ -652,11 +725,116 @@
             // 
             this.sendFileLbael.Font = new System.Drawing.Font("微软雅黑", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.sendFileLbael.ForeColor = System.Drawing.Color.White;
-            this.sendFileLbael.Location = new System.Drawing.Point(125, 8);
+            this.sendFileLbael.Location = new System.Drawing.Point(79, 12);
             this.sendFileLbael.Name = "sendFileLbael";
             this.sendFileLbael.Size = new System.Drawing.Size(152, 47);
             this.sendFileLbael.TabIndex = 33;
             this.sendFileLbael.Text = "文件传输";
+            // 
+            // timerHideRefuselabel
+            // 
+            this.timerHideRefuselabel.Interval = 2000;
+            this.timerHideRefuselabel.Tick += new System.EventHandler(this.TimerHideRefuselabel_Tick);
+            // 
+            // timerSendPercentage
+            // 
+            this.timerSendPercentage.Interval = 5;
+            this.timerSendPercentage.Tick += new System.EventHandler(this.TimerSendPercentage_Tick);
+            // 
+            // timerRecivePercentage
+            // 
+            this.timerRecivePercentage.Interval = 5;
+            this.timerRecivePercentage.Tick += new System.EventHandler(this.TimerRecivePercentage_Tick);
+            // 
+            // SendBackground
+            // 
+            this.SendBackground.WorkerReportsProgress = true;
+            this.SendBackground.WorkerSupportsCancellation = true;
+            this.SendBackground.DoWork += new System.ComponentModel.DoWorkEventHandler(this.SendBackground_DoWork);
+            this.SendBackground.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.SendBackground_RunWorkerCompleted);
+            // 
+            // ReciveBackground
+            // 
+            this.ReciveBackground.WorkerReportsProgress = true;
+            this.ReciveBackground.WorkerSupportsCancellation = true;
+            this.ReciveBackground.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ReciveBackground_DoWork);
+            this.ReciveBackground.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.ReciveBackground_RunWorkerCompleted);
+            // 
+            // timerSendSuccessSwitch
+            // 
+            this.timerSendSuccessSwitch.Interval = 2500;
+            this.timerSendSuccessSwitch.Tick += new System.EventHandler(this.TimerSendSuccessSwitch_Tick);
+            // 
+            // stopSendButton
+            // 
+            this.stopSendButton.BackColor = System.Drawing.Color.Transparent;
+            this.stopSendButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.stopSendButton.FlatAppearance.BorderSize = 0;
+            this.stopSendButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MediumTurquoise;
+            this.stopSendButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Teal;
+            this.stopSendButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.stopSendButton.Font = new System.Drawing.Font("微软雅黑", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.stopSendButton.ForeColor = System.Drawing.Color.White;
+            this.stopSendButton.Location = new System.Drawing.Point(56, 606);
+            this.stopSendButton.Name = "stopSendButton";
+            this.stopSendButton.Size = new System.Drawing.Size(306, 59);
+            this.stopSendButton.TabIndex = 48;
+            this.stopSendButton.Text = "取消文件传输";
+            this.stopSendButton.UseVisualStyleBackColor = false;
+            this.stopSendButton.Visible = false;
+            this.stopSendButton.Click += new System.EventHandler(this.StopSendButton_Click);
+            // 
+            // sendFilecancel
+            // 
+            this.sendFilecancel.Font = new System.Drawing.Font("微软雅黑", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.sendFilecancel.ForeColor = System.Drawing.Color.White;
+            this.sendFilecancel.Location = new System.Drawing.Point(0, 455);
+            this.sendFilecancel.Name = "sendFilecancel";
+            this.sendFilecancel.Size = new System.Drawing.Size(404, 112);
+            this.sendFilecancel.TabIndex = 48;
+            this.sendFilecancel.Text = "文件传输已取消";
+            this.sendFilecancel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.sendFilecancel.Visible = false;
+            // 
+            // timersetSendStop
+            // 
+            this.timersetSendStop.Tick += new System.EventHandler(this.TimersetSendStop_Tick);
+            // 
+            // timerReceiveStopSwitch
+            // 
+            this.timerReceiveStopSwitch.Interval = 1000;
+            this.timerReceiveStopSwitch.Tick += new System.EventHandler(this.TimerReceiveStopSwitch_Tick);
+            // 
+            // timerReceiveStopSwitch1
+            // 
+            this.timerReceiveStopSwitch1.Interval = 1000;
+            this.timerReceiveStopSwitch1.Tick += new System.EventHandler(this.TimerReceiveStopSwitch1_Tick);
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.Transparent;
+            this.button2.BackgroundImage = global::QQ.Properties.Resources.Close;
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Aqua;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Location = new System.Drawing.Point(340, 0);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(67, 46);
+            this.button2.TabIndex = 29;
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.Button2_Click_1);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::QQ.Properties.Resources.文件1;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 1);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(73, 56);
+            this.pictureBox1.TabIndex = 34;
+            this.pictureBox1.TabStop = false;
             // 
             // close1
             // 
@@ -665,7 +843,7 @@
             this.close1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.close1.FlatAppearance.BorderSize = 0;
             this.close1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.close1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Aqua;
+            this.close1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.PaleTurquoise;
             this.close1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.close1.Location = new System.Drawing.Point(1396, 1);
             this.close1.Name = "close1";
@@ -694,67 +872,134 @@
             this.openButtenList.UseVisualStyleBackColor = false;
             this.openButtenList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OpenButtenList_MouseClick);
             // 
-            // talkList
+            // head
             // 
-            this.talkList.BackColor = System.Drawing.Color.Transparent;
-            this.talkList.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.talkList.FlatAppearance.BorderSize = 0;
-            this.talkList.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.talkList.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Teal;
-            this.talkList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.talkList.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.talkList.ForeColor = System.Drawing.Color.Transparent;
-            this.talkList.Image = global::QQ.Properties.Resources.聊天2;
-            this.talkList.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.talkList.Location = new System.Drawing.Point(-10, 181);
-            this.talkList.Name = "talkList";
-            this.talkList.Size = new System.Drawing.Size(371, 66);
-            this.talkList.TabIndex = 22;
-            this.talkList.Text = "聊天";
-            this.talkList.UseVisualStyleBackColor = false;
+            this.head.BackColor = System.Drawing.Color.Transparent;
+            this.head.BackgroundImage = global::QQ.Properties.Resources.aroma;
+            this.head.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.head.Location = new System.Drawing.Point(3, 3);
+            this.head.Name = "head";
+            this.head.Size = new System.Drawing.Size(67, 73);
+            this.head.TabIndex = 26;
+            this.head.TabStop = false;
             // 
-            // Friends
+            // NoListPicture
             // 
-            this.Friends.BackColor = System.Drawing.Color.Transparent;
-            this.Friends.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.Friends.FlatAppearance.BorderSize = 0;
-            this.Friends.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.Friends.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Teal;
-            this.Friends.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Friends.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Friends.ForeColor = System.Drawing.Color.White;
-            this.Friends.Image = ((System.Drawing.Image)(resources.GetObject("Friends.Image")));
-            this.Friends.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Friends.Location = new System.Drawing.Point(-10, 274);
-            this.Friends.Name = "Friends";
-            this.Friends.Size = new System.Drawing.Size(371, 66);
-            this.Friends.TabIndex = 1;
-            this.Friends.Text = "联系人";
-            this.Friends.UseVisualStyleBackColor = false;
+            this.NoListPicture.BackColor = System.Drawing.Color.Transparent;
+            this.NoListPicture.BackgroundImage = global::QQ.Properties.Resources.robo002;
+            this.NoListPicture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.NoListPicture.InitialImage = null;
+            this.NoListPicture.Location = new System.Drawing.Point(109, 225);
+            this.NoListPicture.Name = "NoListPicture";
+            this.NoListPicture.Size = new System.Drawing.Size(231, 210);
+            this.NoListPicture.TabIndex = 22;
+            this.NoListPicture.TabStop = false;
             // 
-            // timerHideRefuselabel
+            // button4
             // 
-            this.timerHideRefuselabel.Interval = 2000;
-            this.timerHideRefuselabel.Tick += new System.EventHandler(this.TimerHideRefuselabel_Tick);
+            this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(28)))), ((int)(((byte)(33)))));
+            this.button4.BackgroundImage = global::QQ.Properties.Resources.最小化__1_;
+            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button4.FlatAppearance.BorderSize = 0;
+            this.button4.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.button4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.PaleTurquoise;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Location = new System.Drawing.Point(776, 1);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(87, 45);
+            this.button4.TabIndex = 29;
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.Button4_Click);
             // 
-            // setSavePath
+            // sendFiles
             // 
-            this.setSavePath.BackColor = System.Drawing.Color.Transparent;
-            this.setSavePath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.setSavePath.FlatAppearance.BorderSize = 0;
-            this.setSavePath.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MediumTurquoise;
-            this.setSavePath.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Teal;
-            this.setSavePath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.setSavePath.Font = new System.Drawing.Font("微软雅黑", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.setSavePath.ForeColor = System.Drawing.Color.White;
-            this.setSavePath.Location = new System.Drawing.Point(68, 791);
-            this.setSavePath.Name = "setSavePath";
-            this.setSavePath.Size = new System.Drawing.Size(278, 59);
-            this.setSavePath.TabIndex = 42;
-            this.setSavePath.Text = "选择保存路径";
-            this.setSavePath.UseVisualStyleBackColor = false;
-            this.setSavePath.Visible = false;
-            this.setSavePath.Click += new System.EventHandler(this.SetSavePath_Click);
+            this.sendFiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(28)))), ((int)(((byte)(33)))));
+            this.sendFiles.BackgroundImage = global::QQ.Properties.Resources.文件;
+            this.sendFiles.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.sendFiles.FlatAppearance.BorderSize = 0;
+            this.sendFiles.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MediumTurquoise;
+            this.sendFiles.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Teal;
+            this.sendFiles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sendFiles.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.sendFiles.ForeColor = System.Drawing.Color.White;
+            this.sendFiles.Location = new System.Drawing.Point(722, 812);
+            this.sendFiles.Name = "sendFiles";
+            this.sendFiles.Size = new System.Drawing.Size(80, 54);
+            this.sendFiles.TabIndex = 30;
+            this.sendFiles.UseVisualStyleBackColor = false;
+            this.sendFiles.Visible = false;
+            this.sendFiles.Click += new System.EventHandler(this.SendFiles_Click);
+            // 
+            // sendChatButton
+            // 
+            this.sendChatButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(28)))), ((int)(((byte)(33)))));
+            this.sendChatButton.BackgroundImage = global::QQ.Properties.Resources.发送__1_;
+            this.sendChatButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.sendChatButton.FlatAppearance.BorderSize = 0;
+            this.sendChatButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.MediumTurquoise;
+            this.sendChatButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Teal;
+            this.sendChatButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sendChatButton.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.sendChatButton.ForeColor = System.Drawing.Color.White;
+            this.sendChatButton.Location = new System.Drawing.Point(828, 812);
+            this.sendChatButton.Name = "sendChatButton";
+            this.sendChatButton.Size = new System.Drawing.Size(80, 54);
+            this.sendChatButton.TabIndex = 28;
+            this.sendChatButton.UseVisualStyleBackColor = false;
+            this.sendChatButton.Visible = false;
+            this.sendChatButton.Click += new System.EventHandler(this.SendChatButton_Click);
+            this.sendChatButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SendChatButton_KeyPress);
+            // 
+            // talkBackground
+            // 
+            this.talkBackground.BackColor = System.Drawing.Color.Transparent;
+            this.talkBackground.BackgroundImage = global::QQ.Properties.Resources.CytusII;
+            this.talkBackground.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.talkBackground.InitialImage = null;
+            this.talkBackground.Location = new System.Drawing.Point(155, 196);
+            this.talkBackground.Name = "talkBackground";
+            this.talkBackground.Size = new System.Drawing.Size(658, 414);
+            this.talkBackground.TabIndex = 18;
+            this.talkBackground.TabStop = false;
+            this.talkBackground.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TalkBackground1_MouseDown);
+            // 
+            // fileLengthLabel
+            // 
+            this.fileLengthLabel.Font = new System.Drawing.Font("微软雅黑", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.fileLengthLabel.ForeColor = System.Drawing.Color.White;
+            this.fileLengthLabel.Location = new System.Drawing.Point(25, 366);
+            this.fileLengthLabel.Name = "fileLengthLabel";
+            this.fileLengthLabel.Size = new System.Drawing.Size(337, 56);
+            this.fileLengthLabel.TabIndex = 49;
+            this.fileLengthLabel.Text = "文件大小：";
+            this.fileLengthLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.fileLengthLabel.Visible = false;
+            // 
+            // timerspeed
+            // 
+            this.timerspeed.Interval = 500;
+            this.timerspeed.Tick += new System.EventHandler(this.Timerspeed_Tick);
+            // 
+            // speedLabel
+            // 
+            this.speedLabel.Font = new System.Drawing.Font("微软雅黑 Light", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.speedLabel.ForeColor = System.Drawing.Color.White;
+            this.speedLabel.Location = new System.Drawing.Point(193, 29);
+            this.speedLabel.Name = "speedLabel";
+            this.speedLabel.Size = new System.Drawing.Size(197, 62);
+            this.speedLabel.TabIndex = 46;
+            this.speedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label4
+            // 
+            this.label4.Font = new System.Drawing.Font("微软雅黑 Light", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(22, 29);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(150, 62);
+            this.label4.TabIndex = 47;
+            this.label4.Text = "速度:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form2
             // 
@@ -762,11 +1007,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(50)))), ((int)(((byte)(117)))));
             this.ClientSize = new System.Drawing.Size(1893, 879);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.FilePanel);
             this.Controls.Add(this.close1);
             this.Controls.Add(this.openButtenList);
-            this.Controls.Add(this.talkList);
-            this.Controls.Add(this.Friends);
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.friendsList);
             this.Controls.Add(this.backGround);
@@ -777,26 +1020,26 @@
             this.Load += new System.EventHandler(this.Form2_Load);
             this.friendsList.ResumeLayout(false);
             this.friendsList.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NoListPicture)).EndInit();
             this.backGround.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.talkBackground)).EndInit();
             this.buttonBack.ResumeLayout(false);
             this.buttonBack.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.head)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.FilePanel.ResumeLayout(false);
+            this.FilePanel.PerformLayout();
+            this.openReceivePathpanel.ResumeLayout(false);
+            this.PercentagePanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.head)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NoListPicture)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.talkBackground)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.Button Friends;
         private System.Windows.Forms.Panel friendsList;
         private System.Windows.Forms.PictureBox talkBackground;
         private System.Windows.Forms.Button close1;
         private System.Windows.Forms.Panel backGround;
-        private System.Windows.Forms.Button talkList;
         private System.Windows.Forms.Timer timerOpen;
         private System.Windows.Forms.PictureBox NoListPicture;
         private System.Windows.Forms.Label NoListLabel;
@@ -827,7 +1070,7 @@
         public System.Windows.Forms.RichTextBox SaveAllrichTextBox;
         private System.Windows.Forms.Timer timerNomessage;
         private System.Windows.Forms.Label nomessageLabel;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel FilePanel;
         private System.Windows.Forms.Button selectFile;
         private System.Windows.Forms.Label sendFileLbael;
         private System.Windows.Forms.PictureBox pictureBox1;
@@ -840,5 +1083,30 @@
         private System.Windows.Forms.TextBox filePathTextbox;
         private System.Windows.Forms.Button conformSend;
         private System.Windows.Forms.Button setSavePath;
+        private System.Windows.Forms.Label zhengzai;
+        private System.Windows.Forms.Label sendFriendName;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label YiwanchengLabel;
+        private System.Windows.Forms.Label baifenbiLabel;
+        private System.Windows.Forms.Timer timerSendPercentage;
+        private System.Windows.Forms.Timer timerRecivePercentage;
+        private System.ComponentModel.BackgroundWorker SendBackground;
+        private System.ComponentModel.BackgroundWorker ReciveBackground;
+        private System.Windows.Forms.Panel PercentagePanel;
+        private System.Windows.Forms.Panel openReceivePathpanel;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Timer timerSendSuccessSwitch;
+        private System.Windows.Forms.Button stopSendButton;
+        private System.Windows.Forms.Label sendFilecancel;
+        private System.Windows.Forms.Timer timersetSendStop;
+        private System.Windows.Forms.Timer timerReceiveStopSwitch;
+        private System.Windows.Forms.Timer timerReceiveStopSwitch1;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Label fileLengthLabel;
+        private System.Windows.Forms.Timer timerspeed;
+        private System.Windows.Forms.Label speedLabel;
+        private System.Windows.Forms.Label label4;
     }
 }

@@ -207,6 +207,7 @@
             this.UIDpoint.ForeColor = System.Drawing.Color.Silver;
             this.UIDpoint.Location = new System.Drawing.Point(465, 641);
             this.UIDpoint.Name = "UIDpoint";
+            this.UIDpoint.ReadOnly = true;
             this.UIDpoint.Size = new System.Drawing.Size(655, 47);
             this.UIDpoint.TabIndex = 23;
             this.UIDpoint.TabStop = false;

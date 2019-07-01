@@ -19,8 +19,8 @@ namespace QQ
         public static void OnlineBroadcast(string userName, string userUID, string userIP,string UPorDN)
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            IPEndPoint ipe = new IPEndPoint(IPAddress.Broadcast, 10086);//规定本操作执行的端口，规定用于广播的IP地址
-            IPEndPoint iepHost = new IPEndPoint(IPAddress.Parse(userIP), 10086);//
+            IPEndPoint ipe = new IPEndPoint(IPAddress.Broadcast, 54320);//规定本操作执行的端口，规定用于广播的IP地址
+            IPEndPoint iepHost = new IPEndPoint(IPAddress.Parse(userIP), 54320);//
             string hostname = Dns.GetHostName();
             byte[] data = Encoding.UTF8.GetBytes(userIP + "," + userUID + "!" + UPorDN + "?" + userName);
             socket.Bind(iepHost); //套接字绑定本机ip和端口                                                                                                                                              //需要绑定一块活动的网卡，不然无法发送信息
@@ -37,8 +37,8 @@ namespace QQ
         public static void OfflineBroadcast(string userName, string userUID, string userIP)
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            IPEndPoint iep1 = new IPEndPoint(IPAddress.Broadcast, 10086);//接收10086端口发来的广播
-            IPEndPoint iepHost = new IPEndPoint(IPAddress.Parse(userIP), 10086);
+            IPEndPoint iep1 = new IPEndPoint(IPAddress.Broadcast, 54320);//接收10086端口发来的广播
+            IPEndPoint iepHost = new IPEndPoint(IPAddress.Parse(userIP), 54320);
             string hostname = Dns.GetHostName();
             byte[] data = Encoding.UTF8.GetBytes(userIP + "," + userUID + "," + "DN" + "," + userName);
             socket.Bind(iepHost);
@@ -49,7 +49,7 @@ namespace QQ
         }
         public static void ListenBroadcast()
         {
-            IPEndPoint ipEP1 = new IPEndPoint(IPAddress.Any, 10086);   //IPAddress.any即为所有活动主机
+            IPEndPoint ipEP1 = new IPEndPoint(IPAddress.Any, 54320);   //IPAddress.any即为所有活动主机
             UdpClient udpReceive = new UdpClient(ipEP1);
             while (true)
             {
