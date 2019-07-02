@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.XPath;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace QQ
 {
@@ -135,19 +128,19 @@ namespace QQ
         private void TimerCytus2xuhua_Tick(object sender, EventArgs e)//仿造动态模糊操作
         {
             //pictureBox1.Visible = false;
-            if(pictureBox1.Visible==true)
+            if (pictureBox1.Visible == true)
             {
                 close1.Parent = Cytus2xuhua1;
                 Cytus2xuhua1.Visible = true;
                 pictureBox1.Visible = false;
             }
-            else if (Cytus2xuhua1.Visible==true)
+            else if (Cytus2xuhua1.Visible == true)
             {
                 close1.Parent = cytus2xuhua2;
                 cytus2xuhua2.Visible = true;
                 Cytus2xuhua1.Visible = false;
             }
-            else if(cytus2xuhua2.Visible==true)
+            else if (cytus2xuhua2.Visible == true)
             {
                 close1.Parent = cytus2xuhua3;
                 cytus2xuhua3.Visible = true;
@@ -216,7 +209,7 @@ namespace QQ
 
         private void InputNumber_MouseClick(object sender, MouseEventArgs e)//未点击时显示背景文字，点击后隐藏
         {
-            if(inputNumber.Text=="用户名")
+            if (inputNumber.Text == "用户名")
             {
                 inputNumber.Text = "";
                 inputNumber.ForeColor = Color.Black;
@@ -226,11 +219,11 @@ namespace QQ
 
         private void InputPassword_MouseClick(object sender, MouseEventArgs e)
         {
-            if(inputPassword.Text=="密码")
+            if (inputPassword.Text == "密码")
             {
                 inputPassword.Text = "";
                 inputPassword.ForeColor = Color.Black;
-                inputPassword.UseSystemPasswordChar=true;
+                inputPassword.UseSystemPasswordChar = true;
             }
         }
 
@@ -245,7 +238,7 @@ namespace QQ
 
         private void InputNumber_Leave(object sender, EventArgs e)
         {
-            if(inputNumber.Text=="")
+            if (inputNumber.Text == "")
             {
                 inputNumber.Text = "用户名";
                 inputNumber.ForeColor = Color.Silver;
@@ -312,7 +305,7 @@ namespace QQ
             {
                 if (dataRow[0].ToString() == inputNumber.Text && dataRow[1].ToString() == inputPassword.Text)
                 {
-                    
+
                     return true;
                 }
             }
@@ -338,7 +331,7 @@ namespace QQ
             if (File.Exists(directory_Path + "/Users.xml"))
             {
                 bool FxxkYou = checkUsers();
-                if (FxxkYou==true)//如果输入密码正确
+                if (FxxkYou == true)//如果输入密码正确
                 {
                     userClass.publicUsername = inputNumber.Text;
                     userClass.publicUserpassword = inputPassword.Text;
@@ -355,14 +348,14 @@ namespace QQ
                     PointOut.Text = "正在登录，这可能需要一点时间。\r\n请坐和放宽。";
                     timerSwitchLabel.Start();
                     timerSwitchForm.Start();
-                    
+
                 }
                 else
                 {
                     WarningFalse.Visible = true;
                     timerWate.Start();
                 }
-                
+
             }
             else
             {
@@ -374,8 +367,8 @@ namespace QQ
         private void ResignButton2_MouseClick(object sender, MouseEventArgs e)
         {
             resignSuccess form1 = new resignSuccess();
-            
-           
+
+
             string directory_Path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Cytus2/Users";
 
             if (Directory.Exists(directory_Path))//判断路径是否存在，该文件夹用于存放账号信息
@@ -426,14 +419,14 @@ namespace QQ
             {
                 Directory.CreateDirectory(directory_Path);
                 CreatXML User = new CreatXML();
-                if(inputNumber.Text!="用户名"&&inputPassword.Text!="密码")
+                if (inputNumber.Text != "用户名" && inputPassword.Text != "密码")
                 {
                     loginPoint.Visible = false;
                     Success.Visible = true;
                     string username = inputNumber.Text;
                     string password = inputPassword.Text;
                     string UID = UIDpoint.Text;
-                    User.CreateXmlFile(username,password,UID);
+                    User.CreateXmlFile(username, password, UID);
                     timerSwitch2.Start();
                 }
                 else
@@ -458,11 +451,11 @@ namespace QQ
         }
         private void ShowPassword_MouseClick(object sender, MouseEventArgs e)//展示密码
         {
-            if(inputPassword.UseSystemPasswordChar==true)
+            if (inputPassword.UseSystemPasswordChar == true)
             {
                 inputPassword.UseSystemPasswordChar = false;
             }
-            else if(inputPassword.UseSystemPasswordChar == false && inputPassword.Text != "密码")
+            else if (inputPassword.UseSystemPasswordChar == false && inputPassword.Text != "密码")
             {
                 inputPassword.UseSystemPasswordChar = true;
             }
@@ -519,7 +512,7 @@ namespace QQ
 
         private void ShowPassword_MouseClick_1(object sender, MouseEventArgs e)
         {
-            if(inputPassword.UseSystemPasswordChar==true)
+            if (inputPassword.UseSystemPasswordChar == true)
             {
                 inputPassword.UseSystemPasswordChar = false;
             }
@@ -527,10 +520,10 @@ namespace QQ
             {
                 inputPassword.UseSystemPasswordChar = true;
             }
-            
+
         }
 
-       
+
 
         private void InputPassword_KeyPress_1(object sender, KeyPressEventArgs e)
         {
@@ -546,7 +539,7 @@ namespace QQ
             if (File.Exists(directory_Path + "/Users.xml"))
             {
                 bool FxxkYou = checkUsers();
-                if (FxxkYou==true)//如果输入密码正确
+                if (FxxkYou == true)//如果输入密码正确
                 {
                     userClass.publicUsername = inputNumber.Text;
                     userClass.publicUserpassword = inputPassword.Text;
@@ -563,14 +556,14 @@ namespace QQ
                     PointOut.Text = "正在登录，这可能需要一点时间。\r\n请坐和放宽。";
                     timerSwitchLabel.Start();
                     timerSwitchForm.Start();
-                    
+
                 }
                 else
                 {
                     WarningFalse.Visible = true;
                     timerWate.Start();
                 }
-                
+
             }
             else
             {
@@ -581,7 +574,7 @@ namespace QQ
     }
     class CreatXML
     {
-        public void CreateXmlFile(string username,string password,string uid)
+        public void CreateXmlFile(string username, string password, string uid)
         {
 
             XmlDocument xmlDoc = new XmlDocument();
@@ -600,7 +593,7 @@ namespace QQ
 
             try
             {
-                string directory_Path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Cytus2/Users"; 
+                string directory_Path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Cytus2/Users";
                 xmlDoc.Save(directory_Path + "/Users.xml");
             }
             catch (Exception e)

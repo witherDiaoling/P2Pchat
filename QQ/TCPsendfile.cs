@@ -1,24 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
-
-
-
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-
-using System.Net;
-
-
-
 using System.Windows.Forms;
-
-using System.Threading;
 
 namespace QQ
 {
@@ -29,19 +14,19 @@ namespace QQ
             /// <summary>
             /// 已经发送的百分比。范围是 0~100。
             /// </summary>
-            public int Percentage { get; private set; } = 0;
+            public double Percentage { get; private set; } = 0;
             /// <summary>
             /// 缓冲区大小
             /// </summary>
             byte[] sendByte = new byte[1400];
-        
+
 
             //构造函数
             public SendFile()
             {
 
             }
-           
+
             /// <summary>
             /// 发送请求信息
             /// </summary>
@@ -54,7 +39,7 @@ namespace QQ
                     socketSend.Connect(IPAddress.Parse(friendIP), 54323);
                     NetworkStream networkstream = new NetworkStream(socketSend);
                     //int length = message.Length;
-                    byte[] buffer = Encoding.UTF8.GetBytes("UID"+":"+userClass.publicUserUID+"!"+"Request");
+                    byte[] buffer = Encoding.UTF8.GetBytes("UID" + ":" + userClass.publicUserUID + "!" + "Request");
                     networkstream.Write(buffer, 0, buffer.Length);
                     networkstream.Dispose();
                     networkstream.Close();
@@ -69,7 +54,7 @@ namespace QQ
             /// <summary>
             /// 发送文件信息
             /// </summary>
-            public void SendFileInformation(string friendIP,string filePath,string fileName)
+            public void SendFileInformation(string friendIP, string filePath, string fileName)
             {
                 try
                 {
@@ -84,12 +69,12 @@ namespace QQ
                     socketSend.Connect(IPAddress.Parse(friendIP), 54323);
                     NetworkStream networkstream = new NetworkStream(socketSend);
                     //发送文件信息
-                    byte[] buffer = Encoding.UTF8.GetBytes("Information" +"?"+fileLength+"!"+Sum+"/"+fileName);
+                    byte[] buffer = Encoding.UTF8.GetBytes("Information" + "?" + fileLength + "!" + Sum + "/" + fileName);
                     networkstream.Write(buffer, 0, buffer.Length);
                     networkstream.Dispose();
                     networkstream.Close();
                     socketSend.Close();
-                    
+
                 }
                 catch (Exception e)
                 {
@@ -147,9 +132,9 @@ namespace QQ
             /// 接收确认信息
             /// </summary>
             /// <param name="signalStream"></param>
-            public bool Receiveconform(ref NetworkStream ConformStream,int length)
+            public bool Receiveconform(ref NetworkStream ConformStream, int length)
             {
-                while(true)
+                while (true)
                 {
                     try
                     {
@@ -162,11 +147,11 @@ namespace QQ
                             return true;
                         }
                     }
-                    catch (Exception e)
+                    catch
                     {
                     }
                 }
-               
+
             }
             /// <summary>
             /// 发送文件
@@ -174,17 +159,17 @@ namespace QQ
             /// <param name="friendIP"></param>
             /// <param name="filePath"></param>
             /// <param name="fileType"></param>
-            public void SendFileway(string friendIP,string filePath,ref int percentage,ref bool stopSendtrueORfalse)
+            public void SendFileway(string friendIP, string filePath, ref double percentage, ref bool stopSendtrueORfalse)
             {
                 int sendByteLength = sendByte.Length;
                 FileInfo fileInfo = new FileInfo(filePath);
-                
+
                 //文件长度
                 long fileLength = fileInfo.Length;
                 //总块数
                 long Sum = 0;
-                
-                if (fileLength<sendByteLength)//如果文件大小小于一个块的长度，说明值发送一个块
+
+                if (fileLength < sendByteLength)//如果文件大小小于一个块的长度，说明值发送一个块
                 {
                     Sum = 1;
                 }
@@ -192,9 +177,9 @@ namespace QQ
                 {
                     Sum = fileLength / sendByteLength;
                 }
-                
+
                 //块数编号
-                
+
                 //与对方建立连接
                 Socket sendsocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 FileStream fileStream = File.OpenRead(filePath);
@@ -207,12 +192,13 @@ namespace QQ
                 receiveconfrom.Connect(confromiPEendPoint);
 
 
-                
+
                 //创建网络流
                 NetworkStream networkStream = new NetworkStream(sendsocket);
                 NetworkStream confromnetworkStream1 = new NetworkStream(receiveconfrom);
                 //用缓冲流封装网络流，增加发送速度
                 BufferedStream buffered = new BufferedStream(networkStream);
+                sendsocket.NoDelay = true;
                 try
                 {
                     using (fileStream)
@@ -224,26 +210,30 @@ namespace QQ
                                 while ((sendByteLength = fileStream.Read(sendByte, 0, sendByteLength)) > 0)//如果有一次读入缓冲区的字节数是0，说明文件读取完毕
                                 {
 
+
                                     if (stopSendtrueORfalse == true)//如果中断请求发生，则跳出循环
                                     {
                                         break;
                                     }
-                                    buffered.Write(sendByte, 0, sendByteLength);//向对方发送字节数组
-                                    buffered.Flush();
-                                    //Number++;
+                                    networkStream.Write(sendByte, 0, sendByteLength);//向对方发送字节数组
+                                    networkStream.Flush();
+                                    //块数增加
                                     Form2.Number++;
-                                    Percentage = (int)(((double)Form2.Number / Sum) * 100);//计算传输百分比
-                                    if (Percentage>100)
+                                    //计算传输百分比
+                                    Percentage = (((double)Form2.Number / Sum) * 100);
+                                    if (Percentage > 100)
                                     {
                                         Percentage = 100;
                                     }
                                     percentage = Percentage;
+                                    //接收确认信息，收到后再进行下一次发送
                                     Receiveconform(ref confromnetworkStream1, receiveconfrom.ReceiveBufferSize);
                                 }
                             }
                         }
                     }
                 }
+
                 #region
                 catch (ArgumentNullException e)
                 {
@@ -275,19 +265,20 @@ namespace QQ
                 }
                 #endregion
 
-                 finally//关闭套接字
+                finally//关闭套接字
                 {
-                    confromnetworkStream1.Dispose();
-                    confromnetworkStream1.Close();
-                    receiveconfrom.Dispose();
-                    receiveconfrom.Close();
-                    sendsocket.Dispose();
-                    sendsocket.Close();
-                    Form2.Number = 0;
-                }
-                
 
-               
+
+                }
+                confromnetworkStream1.Dispose();
+                confromnetworkStream1.Close();
+                receiveconfrom.Dispose();
+                receiveconfrom.Close();
+                sendsocket.Dispose();
+                sendsocket.Close();
+                Form2.Number = 0;
+
+
 
 
             }
@@ -299,13 +290,13 @@ namespace QQ
             /// <param name="fileType"></param>
             /// <param name="fileLength"></param>
             /// <param name="sum"></param>
-            public void SendFilestart(string friendIP, string filePath,string fileName,ref int percentage,ref bool sentStoptrueORfalse)
+            public void SendFilestart(string friendIP, string filePath, string fileName, ref double percentage, ref bool sentStoptrueORfalse)
             {
                 //发送文件信息
-                SendFileInformation(friendIP,filePath,fileName);
+                SendFileInformation(friendIP, filePath, fileName);
                 //发送文件
-                SendFileway(friendIP, filePath,ref percentage,ref sentStoptrueORfalse);
-                
+                SendFileway(friendIP, filePath, ref percentage, ref sentStoptrueORfalse);
+
 
             }
 
@@ -319,12 +310,12 @@ namespace QQ
             /// <summary>
             /// 数据块缓存
             /// </summary>
-            byte[] blockBuffer = new byte[100*1400];
-          
+            byte[] blockBuffer = new byte[100 * 1400];
+
             /// <summary>
             /// 已经发送的百分比。范围是 0~100。
             /// </summary>
-            public int Percentage { get; private set; } = 0;
+            public double Percentage { get; private set; } = 0;
             //构造方法
             public ReceiveFile()
             {
@@ -339,7 +330,7 @@ namespace QQ
             /// </summary>
             /// <param name="friendIP"></param>
             /// <param name="OKorNO"></param>
-            public void SendOKorNO(string friendIP,string OKorNO)
+            public void SendOKorNO(string friendIP, string OKorNO)
             {
                 try
                 {
@@ -362,7 +353,7 @@ namespace QQ
             /// 发送收到文件块的确认信息
             /// </summary>
             /// <param name="sendStoptrueORfalse"></param>
-            public void  Sendconfrom(ref NetworkStream sendStream, string message)
+            public void Sendconfrom(ref NetworkStream sendStream, string message)
             {
                 try
                 {
@@ -377,35 +368,43 @@ namespace QQ
             /// <summary>
             /// 接收文件
             /// </summary>
-            public void ListenReceiveFile(long fileLength,long fileNumber,string saveFilepath,string FileName,ref int percentage,ref bool sendStoptrueORfalse)
+            public void ListenReceiveFile(long fileLength, long fileNumber, string saveFilepath, string FileName, ref double percentage, ref bool sendStoptrueORfalse)
             {
-                int fragmentBufferLength = fragmentBuffer.Length;
-                int blockBufferBufferLength = blockBuffer.Length;
-                int blockElementsNums = 0;//指示 blockBuffer 中有多少个字节
 
-                //由于监听socket在方法结束后会自动关闭，所以无需手动关闭
-                Socket socketListen = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                socketListen.Bind(new IPEndPoint(userClass.IPv4Address, 54322));//与对方连接
-                socketListen.Listen(10);
-
-                Socket ConformsocketListen = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                ConformsocketListen.Bind(new IPEndPoint(userClass.IPv4Address, 54325));//与对方连接
-                ConformsocketListen.Listen(10);
                 try
                 {
+                    int fragmentBufferLength = fragmentBuffer.Length;
+                    int blockBufferBufferLength = blockBuffer.Length;
+                    int blockElementsNums = 0;//指示 blockBuffer 中有多少个字节
+
+                    //开启文件接收监听线程
+                    Socket socketListen = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    socketListen.Bind(new IPEndPoint(userClass.IPv4Address, 54322));//与对方连接
+                    socketListen.Listen(10);
+
+                    //监听发送确认信息的端口
+                    Socket ConformsocketListen = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    ConformsocketListen.Bind(new IPEndPoint(userClass.IPv4Address, 54325));//与对方连接
+                    ConformsocketListen.Listen(10);
+
+                    //获得连接
                     Socket socketWrite = socketListen.Accept();
+                    socketWrite.NoDelay = true;
                     Socket conformSocket = ConformsocketListen.Accept();
-                    FileStream fStream = new FileStream(saveFilepath+"\\"+FileName, FileMode.Create);
+                    conformSocket.NoDelay = true;
+                    //打开文件流，创建文件
+                    FileStream fStream = new FileStream(saveFilepath + "\\" + FileName, FileMode.Create);
+                    //创建网络流
                     NetworkStream networkStream = new NetworkStream(socketWrite);
                     NetworkStream conformNetworkStream = new NetworkStream(conformSocket);
                     BufferedStream bufferedStream = new BufferedStream(networkStream);
-                    using(fStream)
+                    using (fStream)
                     {
-                        using(networkStream)
+                        using (networkStream)
                         {
-                            using(bufferedStream)
+                            using (bufferedStream)
                             {
-                                if (networkStream.CanRead==true)
+                                if (networkStream.CanRead == true)
                                 {
                                     while (Form2.Number <= fileNumber)//判断文件发送情况
                                     {
@@ -426,14 +425,14 @@ namespace QQ
                                                 fragmentBufferLength = mod;
                                             }
                                         }
-                                        Percentage= (int)(((double)Form2.Number / fileNumber) * 100);//计算传输百分比
+                                        Percentage = ((double)Form2.Number / fileNumber) * 100;//计算传输百分比
                                         if (Percentage > 100)
                                         {
                                             Percentage = 100;
                                         }
                                         percentage = Percentage;
                                         //读取缓冲流数据
-                                        bufferedStream.Read(fragmentBuffer, 0, fragmentBuffer.Length);
+                                        networkStream.Read(fragmentBuffer, 0, fragmentBuffer.Length);
                                         //把数据片中的数据追加到数据块缓存中
                                         Buffer.BlockCopy(fragmentBuffer, 0, blockBuffer, blockElementsNums, fragmentBufferLength);
                                         //片数加一
@@ -445,13 +444,12 @@ namespace QQ
                                             fStream.Write(blockBuffer, 0, blockBufferBufferLength);
                                             blockElementsNums = 0;
                                         }
-                                        //线程停止1毫秒，方便接收
-                                        Thread.Sleep(1);
+
                                         //向发送方发送确认信息，让发送方发下一个报文
                                         Sendconfrom(ref conformNetworkStream, "OK");
                                     }
 
-                                    
+
                                 }
                                 if (blockElementsNums != 0)//缓存块里有东西，需要最后一次写入
                                 {
@@ -459,12 +457,13 @@ namespace QQ
                                 }
                             }
                         }
-                        
+
                     }
                     if (sendStoptrueORfalse == true)
                     {
                         File.Delete(saveFilepath + "\\" + FileName);
                     }
+                    //关闭发送确认信息的socket
                     conformNetworkStream.Dispose();
                     conformNetworkStream.Close();
                     conformSocket.Dispose();
@@ -472,7 +471,10 @@ namespace QQ
                     //关闭与对方连接的socket
                     socketWrite.Dispose();
                     socketWrite.Close();
-
+                    socketListen.Dispose();
+                    socketListen.Close();
+                    ConformsocketListen.Dispose();
+                    ConformsocketListen.Close();
                 }
                 #region
                 catch (ArgumentNullException e)
@@ -518,11 +520,13 @@ namespace QQ
                 #endregion
                 finally//收尾工作
                 {
-                    
+                    //块数归零
                     Form2.Number = 0;
                 }
 
+
             }
+
         }
     }
 }

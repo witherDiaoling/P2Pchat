@@ -3,26 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.XPath;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Net;
-using System.Net.NetworkInformation;
-using Microsoft.Win32;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 using static QQ.TCPsendfile;
 
 namespace QQ
 {
-    
+
     public partial class Form2 : Form
     {
         public static long Number = 0;
@@ -35,10 +27,10 @@ namespace QQ
         /// <summary>
         /// 文件长度
         /// </summary>
-        public long  fileLength = 0;
-           /// <summary>
-           /// 文件总块数
-           /// </summary>
+        public long fileLength = 0;
+        /// <summary>
+        /// 文件总块数
+        /// </summary>
         public long fileSum = 0;
         /// <summary>
         /// 传输的文件名字
@@ -55,11 +47,11 @@ namespace QQ
         /// <summary>
         /// 发送文件传输百分比
         /// </summary>
-        public int SendPercentage = 0;
+        public double SendPercentage = 0;
         /// <summary>
         /// 接收文件传输百分比
         /// </summary>
-        public int ReceivePercentage = 0;
+        public double ReceivePercentage = 0;
         /// <summary>
         /// 显示文件是否传输完成
         /// </summary>
@@ -88,25 +80,116 @@ namespace QQ
         /// 之前文件传输到第几块
         /// </summary>
         public long PassNumber = 0;
+        /// <summary>
+        /// 现在选定的好友的UID
+        /// </summary>
         public string NowFriendUID = "";
+        /// <summary>
+        /// 现在选定的好友的IP
+        /// </summary>
         public string NowFriendIP = "";
+        /// <summary>
+        /// 现在选定的好友的名字
+        /// </summary>
         public string NowFriendNAME = "";
         public static Form2 form2;
-        public string FriendIP="";
+        public string FriendIP = "";
         public Color panelBack = Color.FromArgb(45, 119, 161);
-        public Color nowPanelBack = Color.FromArgb(49,102,181);
+        public Color nowPanelBack = Color.FromArgb(49, 102, 181);
         private List<Thread> ThreadsList;
-        static int Nums = 0;
         public static Panel[] panels;
         /// <summary>
         /// 在线好友table
         /// </summary>
-        public static DataTable friendTable=new DataTable();
+        public static DataTable friendTable = new DataTable();
+
+        #region
+        /// <summary>
+        /// 双缓冲函数
+        /// </summary>
+
+        public void SetDoubleControls()
+        {
+            SetDouble(backGround);
+            SetDouble(baifenbiLabel);
+            SetDouble(button1);
+            SetDouble(button2);
+            SetDouble(button3);
+            SetDouble(button4);
+            SetDouble(button5);
+            SetDouble(deleteRecord);
+            SetDouble(buttonBack);
+            SetDouble(changeNamePasswordbutton);
+            SetDouble(ChangeNametextBox);
+            SetDouble(Changepanel);
+            SetDouble(ChangePasswordtextbox);
+            SetDouble(ChangeShowUID);
+            SetDouble(chatRichTextBox);
+            SetDouble(close1);
+            SetDouble(conformSend);
+            SetDouble(fileLengthLabel);
+            SetDouble(FilePanel);
+            SetDouble(filePathTextbox);
+            SetDouble(friendDOWNlabel);
+            SetDouble(friendsList);
+            SetDouble(head);
+            SetDouble(inputRichTextbox);
+            SetDouble(IPlabel);
+            SetDouble(IPlabel2);
+            SetDouble(IPtext);
+            SetDouble(label1);
+            SetDouble(label2);
+            SetDouble(label3);
+            SetDouble(label4);
+            SetDouble(label5);
+            SetDouble(label6);
+            SetDouble(label7);
+            SetDouble(label8);
+            SetDouble(label9);
+            SetDouble(NObutton);
+            SetDouble(NoListLabel);
+            SetDouble(NoListPicture);
+            SetDouble(nomessageLabel);
+            SetDouble(OKbutton);
+            SetDouble(openButtenList);
+            SetDouble(openReceivePathpanel);
+            SetDouble(PercentagePanel);
+            SetDouble(pictureBox1);
+            SetDouble(progressBar1);
+            SetDouble(requestButton);
+            SetDouble(RequestOKorNOlabel);
+            SetDouble(SaveAllrichTextBox);
+            SetDouble(selectFile);
+            SetDouble(sendChatButton);
+            SetDouble(sendFilecancel);
+            SetDouble(sendFileLbael);
+            SetDouble(sendFiles);
+            SetDouble(sendFriendName);
+            SetDouble(setSavePath);
+            SetDouble(showitIP);
+            SetDouble(showitUID);
+            SetDouble(showitUserName);
+            SetDouble(showRefuselabel);
+            SetDouble(speedLabel);
+            SetDouble(stopSendButton);
+            SetDouble(talkBackground);
+            SetDouble(UIDlabel);
+            SetDouble(UIDLabel2);
+            SetDouble(UIDtext);
+            SetDouble(userName);
+            SetDouble(UsernameLabel1);
+            SetDouble(YiwanchengLabel);
+            SetDouble(zhengzai);
+
+
+
+        }
+        #endregion
         /// <summary>
         /// 创建好友table
         /// </summary>
         /// <param name="cc"></param>
-        public void CreateFriendTable()
+        public void CreateFriendTable()//创建在线好友表
         {
             friendTable.Columns.Add("friendUID", typeof(string));
             friendTable.Columns.Add("friendName", typeof(string));
@@ -114,19 +197,18 @@ namespace QQ
 
             friendTable.RowDeleted += new DataRowChangeEventHandler(UpdateFriendList);
             friendTable.RowChanged += new DataRowChangeEventHandler(UpdateFriendList);
-
         }
         /// <summary>
         /// 修改好友table
         /// </summary>
         /// <param name="cc"></param>
-        public void ChangeFriendTable(string userName,string userUID,string userIP,string UPorDOWN)
+        public void ChangeFriendTable(string userName, string userUID, string userIP, string UPorDOWN)
         {
             //textBox1.AppendText("ChangeFriendTable,55\r\n");
             //MessageBox.Show("Fuck you!!!");
-            if(UPorDOWN=="UP")
+            if (UPorDOWN == "UP")
             {
-                if (FindFriend(userName,userUID,userIP,UPorDOWN) == false)//如果好友列表中没有此人，则添加
+                if (FindFriend(userName, userUID, userIP, UPorDOWN) == false)//如果好友列表中没有此人，则添加
                 {
                     DataRow dataRow = friendTable.NewRow();
                     dataRow["friendUID"] = userUID;
@@ -134,11 +216,10 @@ namespace QQ
                     dataRow["friendIP"] = userIP;
                     friendTable.Rows.Add(dataRow);
                 }
-               
             }
             else
             {
-                
+
                 int count = friendTable.Rows.Count;
                 //debugDisplay(count.ToString());
                 for (int i = 0; i < count; i++)
@@ -149,8 +230,6 @@ namespace QQ
                         friendTable.Rows[i].Delete();
                     }
                 }
-               
-                
             }
         }
         private delegate void DG_UpdateFriendList(object sender, DataRowChangeEventArgs e);
@@ -159,22 +238,20 @@ namespace QQ
         /// </summary>
         public void UpdateFriendList(object sender, DataRowChangeEventArgs e)
         {
-            //textBox1.AppendText("UpdateFriendList,92\r\n");
             if (form2.friendsList.InvokeRequired == false)
             {
                 int count = friendTable.Rows.Count;
                 if (count > 0)
                 {
+                    //刷新好友列表
                     RefreshFriendlist();
                     for (int i = 0; i < count; i++)
                     {
-                        //textBox1.AppendText("changePanel,103\r\n");
+                        //动态创建panel
                         CreatePanel(friendTable.Rows[i][1].ToString(), friendTable.Rows[i][0].ToString(), friendTable.Rows[i][2].ToString(), i);
-                       
                     }
-                   
                 }
-                if (count == 0)
+                if (count == 0)//如果在线好友列表中不存在好友，则删除所有panel
                 {
                     foreach (Control ctrl in friendsList.Controls)
                     {
@@ -190,11 +267,8 @@ namespace QQ
             else
             {
                 DG_UpdateFriendList dG_UpdateFriendList = new DG_UpdateFriendList(UpdateFriendList);
-                form2.friendsList.Invoke(dG_UpdateFriendList,sender,e);
+                form2.friendsList.Invoke(dG_UpdateFriendList, sender, e);
             }
-            
-            
-
         }
         private delegate void DG_RefreshFriendlist();
         /// <summary>
@@ -202,7 +276,7 @@ namespace QQ
         /// </summary>
         public void RefreshFriendlist()
         {
-            if (form2.friendsList.InvokeRequired==false)
+            if (form2.friendsList.InvokeRequired == false)
             {
                 NoListLabel.Parent = this;
                 NoListPicture.Parent = this;
@@ -224,9 +298,9 @@ namespace QQ
         /// <returns></returns>
         public string FindFriendIPbyUID(string UID)
         {
-            foreach(DataRow dataRow in friendTable.Rows)
+            foreach (DataRow dataRow in friendTable.Rows)
             {
-                if (dataRow[0].ToString()==UID)
+                if (dataRow[0].ToString() == UID)
                 {
                     return dataRow[2].ToString();
                 }
@@ -242,7 +316,7 @@ namespace QQ
         /// <param name="UPorDOWN"></param>
         public bool FindFriend(string userName, string userUID, string userIP, string UPorDOWN)
         {
-            if(UPorDOWN=="UP")
+            if (UPorDOWN == "UP")
             {
                 int count = friendTable.Rows.Count;
                 for (int i = 0; i < count; i++)//遍历table，找到此好友
@@ -258,7 +332,7 @@ namespace QQ
             {
                 return true;
             }
-            
+
         }
         public static void SetDouble(Control cc)
         {
@@ -270,13 +344,13 @@ namespace QQ
         /// <param name="userName"></param>
         /// <param name="userUID"></param>
         /// <param name="userIP"></param>
-        public  void LineBroadcast(string userName, string userUID, string userIP, string UPorDN,string needreply)
+        public void LineBroadcast(string userName, string userUID, string userIP, string UPorDN, string needreply)
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             IPEndPoint ipe = new IPEndPoint(IPAddress.Broadcast, 54320);//规定本操作执行的端口，规定用于广播的IP地址
             IPEndPoint iepHost = new IPEndPoint(IPAddress.Parse(userIP), 54320);//
             string hostname = Dns.GetHostName();
-            byte[] data = Encoding.UTF8.GetBytes(userIP + "," + userUID + "!" + UPorDN + "?" + userName+"@"+needreply);
+            byte[] data = Encoding.UTF8.GetBytes(userIP + "," + userUID + "!" + UPorDN + "?" + userName + "@" + needreply);
             socket.Bind(iepHost); //套接字绑定本机ip和端口                                                                                                                                              //需要绑定一块活动的网卡，不然无法发送信息
             socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
             socket.SendTo(data, ipe);
@@ -289,17 +363,20 @@ namespace QQ
         /// <param name="userName"></param>
         /// <param name="userUID"></param>
         /// <param name="userIP"></param>
-        public void LineSend(string userName, string userUID, string userIP,string friendIP)
+        public void LineSend(string userName, string userUID, string userIP, string friendIP)
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(friendIP), 54320);//规定本操作执行的端口，规定用于广播的IP地址
             IPEndPoint iepHost = new IPEndPoint(IPAddress.Parse(userIP), 54320);//
             string hostname = Dns.GetHostName();
-            byte[] data = Encoding.UTF8.GetBytes(userIP + "," + userUID + "!" + "UP" + "?" + userName+"@"+"DONTREPLY");
-            socket.Bind(iepHost); //套接字绑定本机ip和端口                                                                                                                                              //需要绑定一块活动的网卡，不然无法发送信息
+            byte[] data = Encoding.UTF8.GetBytes(userIP + "," + userUID + "!" + "UP" + "?" + userName + "@" + "DONTREPLY");
+            //套接字绑定本机ip和端口 
+            socket.Bind(iepHost);                                                                                                                                     //需要绑定一块活动的网卡，不然无法发送信息
             socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.Broadcast, 1);
+            //发送数据
             socket.SendTo(data, ipe);
-            socket.Shutdown(SocketShutdown.Send);//发送完数据后关闭socket
+            //发送完数据后关闭socket
+            socket.Shutdown(SocketShutdown.Send);
             socket.Close();
         }
         #region
@@ -368,7 +445,7 @@ namespace QQ
         {
             if (showFriendName.InvokeRequired == false)
             {
-                showFriendName.Text="";
+                showFriendName.Text = "";
                 showFriendName.BringToFront();
             }
             else
@@ -593,7 +670,7 @@ namespace QQ
                 showRefuselabel.Invoke(action);
             }
         }
-        public void  ShowRefuselabel5()
+        public void ShowRefuselabel5()
         {
             if (showRefuselabel.InvokeRequired == false)
             {
@@ -688,7 +765,10 @@ namespace QQ
         {
             if (PercentagePanel.InvokeRequired == false)
             {
+                ReceivePercentage = 0;
                 PercentagePanel.Visible = true;
+                baifenbiLabel.Text = "0" + "%";
+                progressBar1.Value = 0;
                 timerRecivePercentage.Start();
                 timerspeed.Start();
             }
@@ -702,6 +782,8 @@ namespace QQ
         {
             if (PercentagePanel.InvokeRequired == false)
             {
+                baifenbiLabel.Text = "0" + "%";
+                progressBar1.Value = 0;
                 PercentagePanel.Visible = false;
             }
             else
@@ -836,7 +918,7 @@ namespace QQ
         {
             if (requestButton.InvokeRequired == false)
             {
-                timerReceiveStopSwitch1.Start();
+                requestButton.Visible = true;
             }
             else
             {
@@ -848,7 +930,7 @@ namespace QQ
         {
             if (fileLengthLabel.InvokeRequired == false)
             {
-                if (filelength>1024*1024)
+                if (filelength > 1024 * 1024)
                 {
                     long length = filelength / (1024 * 1024);
                     fileLengthLabel.Text = "文件大小:" + length.ToString() + "MB";
@@ -856,16 +938,16 @@ namespace QQ
                 }
                 else
                 {
-                    long length = filelength /1024;
+                    long length = filelength / 1024;
                     fileLengthLabel.Text = "文件大小:" + length.ToString() + "KB";
                     fileLengthLabel.Visible = true;
                 }
-                
+
             }
             else
             {
                 Action<long> action = new Action<long>(ShowfilelengthLabel);
-                fileLengthLabel.Invoke(action,filelength);
+                fileLengthLabel.Invoke(action, filelength);
             }
         }
         public void ClosefilelengthLabel()
@@ -895,28 +977,29 @@ namespace QQ
                     byte[] bytRecv = udpReceive.Receive(ref ipEP1);//接收远程主机传来的信息
                     string message = Encoding.UTF8.GetString(bytRecv, 0, bytRecv.Length);
                     string IP = message.Substring(0, message.IndexOf(',')); //远程主机的IP
-                    string UID = message.Substring(message.IndexOf(',') + 1, message.IndexOf('!') - message.IndexOf(',') - 1);   //远程主机的上下线状态字
-                    string UPorDN = message.Substring(message.IndexOf('!') + 1, message.IndexOf('?') - message.IndexOf('!')-1);
-                    string Name = message.Substring(message.IndexOf('?') + 1, message.IndexOf('@') - message.IndexOf('?') - 1); 
-                    string needReply = message.Substring(message.IndexOf('@') + 1);
-                    if (IP==userClass.publicIP)
+                    string UID = message.Substring(message.IndexOf(',') + 1, message.IndexOf('!') - message.IndexOf(',') - 1); //对方UID
+                    string UPorDN = message.Substring(message.IndexOf('!') + 1, message.IndexOf('?') - message.IndexOf('!') - 1);//上线或者下线
+                    string Name = message.Substring(message.IndexOf('?') + 1, message.IndexOf('@') - message.IndexOf('?') - 1);//对方名字
+                    string needReply = message.Substring(message.IndexOf('@') + 1);//是否需要回复
+                    if (IP == userClass.publicIP)//如果收到的广播是本机IP，不做任何事
                     {
-                        
+
                     }
                     else
                     {
-                       // textBox1.AppendText("ListenBroadcast,216\r\n");
-                        if (needReply=="NEEDREPLY")//需要回复，说明是上线广播
+                        // textBox1.AppendText("ListenBroadcast,216\r\n");
+                        if (needReply == "NEEDREPLY")//需要回复，说明是上线广播
                         {
                             //如果是上线广播，接收到这个广播之后，需要给对方也发送一个广播，证明自己在线
                             LineSend(userClass.publicUsername, userClass.publicUserUID, userClass.publicIP, IP);
 
                         }
                         ChangeFriendTable(Name, UID, IP, UPorDN);
-                        if (UPorDN=="DN")
+                        if (UPorDN == "DN")
                         {
-                            if (UID==NowFriendUID)
+                            if (UID == NowFriendUID)
                             {
+                                //控件切换
                                 ClosechatRichtextbox();
                                 CloseinputRichtextbox();
                                 ClosesendChatButton();
@@ -942,11 +1025,11 @@ namespace QQ
                             NoListLabel.Visible = false;
                         }
                     }
-                   
+
                 }
                 catch
                 {
-                    
+
                 }
             }
         }
@@ -955,7 +1038,7 @@ namespace QQ
         /// </summary>
         /// <param name="message"></param>
         /// <param name="horizontalAlignment"></param>
-        public void FormatMessage(string message,HorizontalAlignment horizontalAlignment)
+        public void FormatMessage(string message, HorizontalAlignment horizontalAlignment)
         {
             if (chatRichTextBox.InvokeRequired == false)
             {
@@ -973,7 +1056,7 @@ namespace QQ
             else
             {
                 Action<string, HorizontalAlignment> action = new Action<string, HorizontalAlignment>(FormatMessage);
-                chatRichTextBox.Invoke(action,message,horizontalAlignment);
+                chatRichTextBox.Invoke(action, message, horizontalAlignment);
             }
         }
         public void RefreshInput()
@@ -1013,14 +1096,14 @@ namespace QQ
                 Action action = new Action(SaveRichtextbox);
                 chatRichTextBox.Invoke(action);
             }
-           
+
         }
         /// <summary>
         /// 读取聊天记录
         /// </summary>
         public void LodeRichtextbox()
         {
-           
+
             if (chatRichTextBox.InvokeRequired == false)
             {
                 string directory_Path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Cytus2/Chatrecord";
@@ -1043,9 +1126,9 @@ namespace QQ
         /// </summary>
         /// <param name="UID"></param>
         /// <param name="message"></param>
-        public void SaveallRecord(string UID,string message)
+        public void SaveallRecord(string UID, string message)
         {
-            if(SaveAllrichTextBox.InvokeRequired==false)
+            if (SaveAllrichTextBox.InvokeRequired == false)
             {
                 SaveAllrichTextBox.Text = "";
                 string directory_Path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Cytus2/Chatrecord";
@@ -1104,25 +1187,25 @@ namespace QQ
             }
             else
             {
-                Action<string, string> action = new Action<string,string>(SaveallRecord);
-                SaveAllrichTextBox.Invoke(action,UID,message);
+                Action<string, string> action = new Action<string, string>(SaveallRecord);
+                SaveAllrichTextBox.Invoke(action, UID, message);
             }
         }
         /// <summary>
         /// 显示哪个人有未读消息
         /// </summary>
-        public void ShownoRead(string UID,string newMessageORfileRequest)
+        public void ShownoRead(string UID, string newMessageORfileRequest)
         {
             if (friendsList.InvokeRequired == false)
             {
-                foreach (Control ctrl in friendsList.Controls)
+                foreach (Control ctrl in friendsList.Controls)//遍历好友列表中所有的控件
                 {
-                    if (ctrl is Panel)
+                    if (ctrl is Panel)//如果该控件是panel类型
                     {
 
                         foreach (Control control in ctrl.Controls)            //遍历所有控件，直到找到所需要的子控件
                         {
-                            if (control.Name== "labelUID")//找到匹配UID的panel
+                            if (control.Name == "labelUID")//找到匹配UID的panel
                             {
                                 if (control.Text == UID)
                                 {
@@ -1143,8 +1226,8 @@ namespace QQ
             else
             {
 
-                Action<string,string> action = new Action<string,string>(ShownoRead);
-                friendsList.Invoke(action, UID,newMessageORfileRequest);
+                Action<string, string> action = new Action<string, string>(ShownoRead);
+                friendsList.Invoke(action, UID, newMessageORfileRequest);
             }
         }
         /// <summary>
@@ -1152,16 +1235,19 @@ namespace QQ
         /// </summary>
         private void TCPlisten()
         {
-
+            //开启监听
             Socket socketListen = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            socketListen.Bind(new IPEndPoint(userClass.IPv4Address,54321));//与对方连接
+            socketListen.Bind(new IPEndPoint(userClass.IPv4Address, 54321));//与对方连接
             socketListen.Listen(10);
             while (true)
             {
                 try
                 {
+                    //获取监听到的连接
                     Socket socketWrite = socketListen.Accept();
+                    //创建网络流
                     NetworkStream networkStream = new NetworkStream(socketWrite);
+                    //获取长度
                     int length = socketWrite.ReceiveBufferSize;
                     byte[] buffer = new byte[length];
                     //读取流中的数据
@@ -1173,13 +1259,13 @@ namespace QQ
                     //先保存聊天记录
                     SaveallRecord(UID, message);
                     //显示未读
-                    if (UID!=NowFriendUID)
+                    if (UID != NowFriendUID)
                     {
-                        ShownoRead(UID,"新信息");
+                        ShownoRead(UID, "新信息");
                     }
-                    
+
                     //再读取聊天记录
-                    if (UID==NowFriendUID)//如果目前聊天的人是发来信息的人
+                    if (UID == NowFriendUID)//如果目前聊天的人是发来信息的人
                     {
                         LodeRichtextbox();
                     }
@@ -1190,7 +1276,7 @@ namespace QQ
 
                     MessageBox.Show(e.ToString());
                 }
-                
+
             }
 
 
@@ -1198,7 +1284,7 @@ namespace QQ
         /// <summary>
         /// TCP连接请求,并发送信息
         /// </summary>
-        private void SendTCP(string friendIP,string message)
+        private void SendTCP(string friendIP, string message)
         {
             try
             {
@@ -1208,7 +1294,7 @@ namespace QQ
                 //设置网络流
                 NetworkStream networkstream = new NetworkStream(socketSend);
                 //将要发送的字符串转换为字节数组
-                byte[] buffer = Encoding.UTF8.GetBytes(userClass.publicUserUID+message);
+                byte[] buffer = Encoding.UTF8.GetBytes(userClass.publicUserUID + message);
                 //写入网络流
                 networkstream.Write(buffer, 0, buffer.Length);
                 //关闭网络流和套接字
@@ -1225,12 +1311,13 @@ namespace QQ
                 MessageBox.Show(e.ToString());
             }
         }
-       
+
         /// <summary>
         /// 监听文件传输请求
         /// </summary>
         public void ListenRequest()
         {
+            //开启监听
             Socket socketListen = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socketListen.Bind(new IPEndPoint(userClass.IPv4Address, 54323));//与对方连接
             socketListen.Listen(10);
@@ -1238,6 +1325,7 @@ namespace QQ
             {
                 try
                 {
+                    //获取监听到的连接
                     Socket socketWrite = socketListen.Accept();
                     NetworkStream networkStream = new NetworkStream(socketWrite);
                     int length = socketWrite.ReceiveBufferSize;
@@ -1245,12 +1333,12 @@ namespace QQ
                     //读取流中的数据
                     networkStream.Read(buffer, 0, length);
                     string message = Encoding.UTF8.GetString(buffer).Trim('\0');
-                    if (message.Length==29&&message.Substring(0,3)=="UID")//判断是否是请求信号
+                    if (message.Length == 29 && message.Substring(0, 3) == "UID")//判断是否是请求信号
                     {
                         string UID = message.Substring(4, 17);
-                        if (UID == NowFriendUID )
+                        if (UID == NowFriendUID)//如果请求的信息是目前正在聊天的好友发的
                         {
-                            if (SendTrueORFalse==false)//如果程序没有在发送文件，则可以显示
+                            if (SendTrueORFalse == false)//如果程序没有在发送文件，则可以显示
                             {
                                 ChangeForm2Size();
                                 CloseRequestButton();
@@ -1267,7 +1355,7 @@ namespace QQ
                         }
                         else
                         {
-                            if (SendTrueORFalse==true)//发送拒绝信号
+                            if (SendTrueORFalse == true)//发送拒绝信号
                             {
                                 ReceiveFile receiveFile = new ReceiveFile();
                                 string friendIP = FindFriendIPbyUID(UID);
@@ -1277,10 +1365,10 @@ namespace QQ
                             {
                                 ShownoRead(UID, "文件传输请求");
                             }
-                            
+
                         }
                     }
-                    if (message=="OK")//判断是否是同意传输信号
+                    if (message == "OK")//判断是否是同意传输信号
                     {
                         //对方允许发送，隐藏聊天框中的文件发送按钮，此时无法与其他人发送文件
                         NowSendfileIP = NowFriendIP;
@@ -1289,30 +1377,30 @@ namespace QQ
                         CloseRequestButton();
                         ShowRefuselabel2();
                     }
-                    if(message=="NO")//判断是否是拒绝传输信号
+                    if (message == "NO")//判断是否是拒绝传输信号
                     {
                         ShowRefuselabel();
                         ShowrequestButton();
                     }
-                    if (message== "SetPathOK")//判断是否是已经设置好路径信号
+                    if (message == "SetPathOK")//判断是否是已经设置好路径信号
                     {
                         ShowRefuselabel5();
                         ShowselectFIle();
                     }
-                    if (message=="StopSend")
+                    if (message == "StopSend")//判断是否是停止发送文件信号
                     {
                         SendStoptrueORfalse = true;
                     }
-                    if (message.Length>10&&message.Substring(0,3) != "UID")//判断是否是文件信息信号，并开始接收文件
+                    if (message.Length > 10 && message.Substring(0, 3) != "UID")//判断是否是文件信息信号，并开始接收文件
                     {
                         FiletransferType = "Receive";
-                        string information = message.Substring(0,message.IndexOf('?'));
-                        if (information== "Information")
+                        string information = message.Substring(0, message.IndexOf('?'));
+                        if (information == "Information")
                         {
-
                             ShowRefuselabel4();
-                            string FILELENGTH= message.Substring(message.IndexOf("?")+1, message.IndexOf("!")- message.IndexOf("?")-1);
-                            string SUM= message.Substring(message.IndexOf("!")+1,message.IndexOf("/")-message.IndexOf("!") -1);
+                            //获取文件长度和总块数
+                            string FILELENGTH = message.Substring(message.IndexOf("?") + 1, message.IndexOf("!") - message.IndexOf("?") - 1);
+                            string SUM = message.Substring(message.IndexOf("!") + 1, message.IndexOf("/") - message.IndexOf("!") - 1);
                             ReceiveFileName = message.Substring(message.IndexOf("/") + 1);
                             fileLength = long.Parse(FILELENGTH);
                             fileSum = long.Parse(SUM);
@@ -1327,7 +1415,7 @@ namespace QQ
                             ReciveBackground.RunWorkerAsync();
                         }
                     }
-                   
+
 
                 }
                 catch (Exception e)
@@ -1337,35 +1425,42 @@ namespace QQ
 
                 }
             }
-               
+
 
         }
-        
+
         public Form2()
         {
             InitializeComponent();
             form2 = this;
             ThreadsList = new List<Thread>();
-           
+
         }
+        /// <summary>
+        /// 设置控件的父子关系
+        /// </summary>
         void SetSon()
         {
+            Changepanel.Parent = form2;
             fileLengthLabel.Parent = FilePanel;
             PercentagePanel.Parent = FilePanel;
             openReceivePathpanel.Parent = FilePanel;
             head.Parent = buttonBack;
             close1.Parent = form2;
-            
+
             openButtenList.Parent = buttonBack;
             NoListLabel.Parent = friendsList;
             NoListPicture.Parent = friendsList;
         }
         private void Form2_Load(object sender, EventArgs e)//窗口加载执行操作
         {
+            //监听UDP广播线程
             Thread UDPListenThread = new Thread(ListenBroadcast);
             UDPListenThread.IsBackground = true;
+            //TCP聊天监听线程
             Thread TCPListenthread = new Thread(TCPlisten);
             TCPListenthread.IsBackground = true;
+            //TCP文件发送监听线程
             Thread listenRequest = new Thread(ListenRequest);
             listenRequest.IsBackground = true;
             ThreadsList.Add(UDPListenThread); //将新建的线程加入到线程队列中，以便在窗体结束时关闭所有的线程
@@ -1375,7 +1470,8 @@ namespace QQ
             TCPListenthread.Start();
             listenRequest.Start();
 
-
+            //给所有控件加入双缓冲
+            SetDoubleControls();
             close1.BringToFront();
             //设置本机用户信息
             setUser();
@@ -1384,7 +1480,7 @@ namespace QQ
             //创建好友表
             CreateFriendTable();
             //上线广播
-            LineBroadcast(userClass.publicUsername, userClass.publicUserUID, userClass.publicIP, "UP","NEEDREPLY");
+            LineBroadcast(userClass.publicUsername, userClass.publicUserUID, userClass.publicIP, "UP", "NEEDREPLY");
         }
 
         public void setUser()
@@ -1394,6 +1490,22 @@ namespace QQ
             IPtext.Text = userClass.publicIP;
         }
 
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            if (SendTrueORFalse == false)//如果文件正在传输，则不能关闭程序
+            {
+                LineBroadcast(userClass.publicUsername, userClass.publicUserUID, userClass.publicIP, "DN", "DONTREPLY");
+                Environment.Exit(0);
+            }
+            else
+            {
+                notifyIconWarning.ShowBalloonTip(1000, "警告", "要关闭程序，请先关闭文件传输", ToolTipIcon.Warning);
+            }
+
+        }
+        //以下为窗口拖动代码
+        //窗口拖动相关代码
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
         [DllImportAttribute("user32.dll")]
@@ -1401,13 +1513,6 @@ namespace QQ
                          int Msg, int wParam, int lParam);
         [DllImportAttribute("user32.dll")]
         public static extern bool ReleaseCapture();
-
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            LineBroadcast(userClass.publicUsername, userClass.publicUserUID, userClass.publicIP, "DN","DONTREPLY");
-            Environment.Exit(0);
-        }
-        //以下为窗口拖动代码
         private void BackGround_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -1416,7 +1521,14 @@ namespace QQ
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
         }
-        
+        private void ButtonBack_MouseDown_1(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
 
         private void FriendsList_MouseDown(object sender, MouseEventArgs e)
         {
@@ -1431,8 +1543,8 @@ namespace QQ
         {
             if (e.Button == MouseButtons.Left)
             {
-               ReleaseCapture();
-               SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
         }
 
@@ -1444,15 +1556,25 @@ namespace QQ
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
         }
-        
+
         public int FriendListpanelCount()//判断好友列表中是否有panel
         {
             int number = -2;
-            foreach(Control ctrl in friendsList.Controls)
+            foreach (Control ctrl in friendsList.Controls)
             {
                 number++;
             }
             return number;
+        }
+        private delegate void DG_debugDisplay(string message);
+
+        private void ShouFriendName_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
         }
 
         private delegate void DG_CreatePanel(string uesrName, string userUID, string userIP, int i);
@@ -1460,9 +1582,8 @@ namespace QQ
         /// 动态创建panel
         /// </summary>
         /// <param name="nums"></param>
-        public static void CreatePanel(string uesrName,string userUID,string userIP,int i)
+        public static void CreatePanel(string uesrName, string userUID, string userIP, int i)
         {
-            //Form2.form2.textBox1.AppendText("CreatePanele,395\r\n");
             if (form2.friendsList.InvokeRequired == false)
             {
                 string Name = uesrName;
@@ -1470,7 +1591,6 @@ namespace QQ
                 string IP = userIP;
                 int count = i;
                 Panel panel2 = new Panel();
-                //panels[i].Name = "panels" + i.ToString();
                 SetDouble(panel2);
                 form2.friendsList.Controls.Add(panel2);//往好友列表中增加panel
                 panel2.Location = new Point(0, count * 100);//标定坐标
@@ -1487,22 +1607,31 @@ namespace QQ
             else
             {
                 DG_CreatePanel dG_CreatePanel = new DG_CreatePanel(CreatePanel);
-                form2.friendsList.Invoke(dG_CreatePanel,uesrName,userUID,userIP,i);
+                form2.friendsList.Invoke(dG_CreatePanel, uesrName, userUID, userIP, i);
             }
         }
-        private void SetItinformation(string itName,string itUID,string itIP)
+        /// <summary>
+        /// 设置当前正在聊天的好友的信息
+        /// </summary>
+        /// <param name="itName"></param>
+        /// <param name="itUID"></param>
+        /// <param name="itIP"></param>
+        private void SetItinformation(string itName, string itUID, string itIP)
         {
             showitUserName.Text = itName;
             showitUID.Text = itUID;
             showitIP.Text = itIP;
         }
+        /// <summary>
+        /// 刷新好友信息
+        /// </summary>
         private void Refreshinformation()
         {
             showitUserName.Text = "";
             showitUID.Text = "";
             showitIP.Text = "";
         }
-       
+
         /// <summary>
         /// 窗口切换
         /// </summary>
@@ -1521,13 +1650,13 @@ namespace QQ
         /// <param name="e"></param>
         private void Panels_Click(object sender, EventArgs e)
         {
-            string newMessageORsendFilerequest="";
+            string newMessageORsendFilerequest = "";
             Panel panel = (Panel)(sender);//获取触发本消息处理的 panel 控件
             foreach (Control ctrl in friendsList.Controls)
             {
                 if (ctrl is Panel)
                 {
-                    
+
                     //如果找到 panels 组中的某个 panel 名字等于上面 sender 的 panel 名字，那就是它触发了事件
                     if (ctrl.Name == panel.Name)//找到目标 panel
                     {
@@ -1541,12 +1670,12 @@ namespace QQ
                                 showFriendName.Text = control.Text;
                                 sendFriendName.Text = control.Text;
                             }
-                            if(control.Name == "labelUID")
+                            if (control.Name == "labelUID")
                             {
                                 control.BackColor = nowPanelBack;
                                 NowFriendUID = control.Text;
                             }
-                            if(control.Name=="labelIP")
+                            if (control.Name == "labelIP")
                             {
                                 control.BackColor = nowPanelBack;
                                 NowFriendIP = control.Text;
@@ -1557,10 +1686,9 @@ namespace QQ
                                 control.Visible = false;
                                 newMessageORsendFilerequest = control.Text;
                                 control.Text = "";
-                                
+
                             }
                         }
-
                     }
                     else
                     {
@@ -1571,11 +1699,9 @@ namespace QQ
                             {
                                 control.BackColor = Color.Transparent;
                             }
-                            
                         }
                     }
                 }
-                
             }
             //先清空目前窗口的聊天记录,输入框输入的文本
             chatRichTextBox.Text = "";
@@ -1590,15 +1716,13 @@ namespace QQ
             LodeRichtextbox();
             //此处设置对方信息
             SetItinformation(NowFriendNAME, NowFriendUID, NowFriendIP);
-            if (newMessageORsendFilerequest=="文件传输请求")
+            if (newMessageORsendFilerequest == "文件传输请求")
             {
                 requestButton.Visible = false;
                 OKbutton.Visible = true;
                 NObutton.Visible = true;
                 RequestOKorNOlabel.Visible = true;
                 form2.Size = new Size(1420, 703);
-                
-               
             }
         }
 
@@ -1617,17 +1741,14 @@ namespace QQ
                     //如果找到 panels 组中的某个 panel 名字等于上面 sender 的 panel 名字，那就是它触发了事件
                     if (ctrl.Name == panel.Name)
                     {
-                        if (ctrl.BackColor!=nowPanelBack)
+                        if (ctrl.BackColor != nowPanelBack)
                         {
                             ctrl.BackColor = panelBack;
                             break;
                         }
-                        
                     }
                 }
-               
             }
-
         }
         /// <summary>
         /// Panel 组 MouseLeave 事件
@@ -1643,7 +1764,7 @@ namespace QQ
                 {
                     if (ctrl.Name == panel.Name)
                     {
-                        if (ctrl.BackColor==panelBack)
+                        if (ctrl.BackColor == panelBack)
                         {
                             ctrl.BackColor = Color.Transparent;
                         }
@@ -1715,7 +1836,7 @@ namespace QQ
             labelStatus.Location = new Point(0, 5);
             labelStatus.Size = new Size(6, 90);
             labelStatus.BorderStyle = BorderStyle.None;
-            labelStatus.BackColor = Color.FromArgb(0,174,238);
+            labelStatus.BackColor = Color.FromArgb(0, 174, 238);
             labelStatus.Text = null;
             SetDouble(labelStatus);
 
@@ -1755,7 +1876,7 @@ namespace QQ
             noRead.Visible = false;
             noRead.Location = new Point(170, 70);
             noRead.Size = new Size(130, 50);
-            noRead.ForeColor = Color.FromArgb(245,121,93);
+            noRead.ForeColor = Color.FromArgb(245, 121, 93);
             noRead.Font = new Font("微软雅黑", 13);
             noRead.BackColor = Color.Transparent;
             noRead.BorderStyle = BorderStyle.None;
@@ -1767,13 +1888,13 @@ namespace QQ
 
             return labelUID.Text;
         }
-        
-     
+
+
 
         private void TimerOpen_Tick(object sender, EventArgs e)//页面展开
         {
-           
-            if(buttonBack.Width==270)
+
+            if (buttonBack.Width == 290)
             {
 
                 timerOpen.Stop();
@@ -1787,11 +1908,11 @@ namespace QQ
             }
         }
 
-       
+
 
         private void OpenButtenList_MouseClick(object sender, MouseEventArgs e)//打开列表
         {
-            
+
             if (buttonBack.Width == 50)
             {
                 timerClose.Stop();
@@ -1803,8 +1924,10 @@ namespace QQ
                 UsernameLabel1.Visible = true;
                 IPlabel2.Visible = true;
                 UIDLabel2.Visible = true;
+                changeNamePasswordbutton.Visible = true;
+                deleteRecord.Visible = true;
             }
-            if(buttonBack.Width==270)
+            if (buttonBack.Width == 290)
             {
                 timerOpen.Stop();
                 timerClose.Enabled = true;
@@ -1815,6 +1938,8 @@ namespace QQ
                 UsernameLabel1.Visible = false;
                 IPlabel2.Visible = false;
                 UIDLabel2.Visible = false;
+                changeNamePasswordbutton.Visible = false;
+                deleteRecord.Visible = false;
             }
         }
 
@@ -1833,7 +1958,11 @@ namespace QQ
                 backGround.Left -= 20;
             }
         }
-
+        /// <summary>
+        /// 取消水平滚动条
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FriendsList_Paint(object sender, PaintEventArgs e)
         {
             Control _Control = (Control)sender;
@@ -1845,7 +1974,7 @@ namespace QQ
         private void SendChatButton_Click(object sender, EventArgs e)
         {
             string message = inputRichTextbox.Text;
-            if (message=="")
+            if (message == "")
             {
                 nomessageLabel.Visible = true;
                 timerNomessage.Start();
@@ -1854,19 +1983,10 @@ namespace QQ
             {
                 SendTCP(NowFriendIP, message);
             }
-            
+
         }
 
-        private delegate void DG_debugDisplay(string message);
 
-        private void ShouFriendName_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                ReleaseCapture();
-                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
-            }
-        }
 
         private void TimershowDOWN_Tick(object sender, EventArgs e)
         {
@@ -1890,7 +2010,7 @@ namespace QQ
 
         private void InputRichTextbox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if((Keys)e.KeyChar == Keys.Enter)
+            if ((Keys)e.KeyChar == Keys.Enter)
             {
                 this.SendChatButton_KeyPress(sender, e);
             }
@@ -1908,10 +2028,10 @@ namespace QQ
             timerNomessage.Stop();
         }
 
-        private void SendFiles_Click(object sender, EventArgs e)
+        private void SendFiles_Click(object sender, EventArgs e)//打开发送文件窗口
         {
             string length = form2.Size.ToString();
-            if (form2.Width==1420)
+            if (form2.Width == 1420)
             {
                 form2.Size = new Size(1113, 703);
             }
@@ -1924,7 +2044,7 @@ namespace QQ
                 requestButton.Visible = true;
                 form2.Size = new Size(1420, 703);
             }
-            
+
         }
 
         private void Button1_Click_1(object sender, EventArgs e)
@@ -1936,10 +2056,10 @@ namespace QQ
                 filePath = System.IO.Path.GetFullPath(openFileDialog.FileName);
                 filePathTextbox.Text = filePath;
                 //设置发送的文件名字
-                fileName= System.IO.Path.GetFileName(openFileDialog.FileName);
+                fileName = System.IO.Path.GetFileName(openFileDialog.FileName);
                 conformSend.Visible = true;
             }
-            
+
         }
 
         private void OKbutton_Click(object sender, EventArgs e)
@@ -1966,6 +2086,7 @@ namespace QQ
             CloseRequestOKorNOlabel();
             CloseOKbutton();
             CloseNObutton();
+            ShowrequestButton();
             OKorNO = "NO";
             SendFile sendFile = new SendFile();
             ReceiveFile receiveFile = new ReceiveFile();
@@ -1989,10 +2110,13 @@ namespace QQ
             timerHideRefuselabel.Stop();
         }
 
-        private void ConformSend_Click(object sender, EventArgs e)
+        private void ConformSend_Click(object sender, EventArgs e)//确认发送文件
         {
+            //将传输类别设置为发送
             FiletransferType = "Send";
             ShowRefuselabel6();
+            //发送百分比置零
+            SendPercentage = 0;
             PercentagePanel.Visible = true;
             conformSend.Visible = false;
             selectFile.Visible = false;
@@ -2001,7 +2125,7 @@ namespace QQ
             timerspeed.Start();
             SendTrueORFalse = true;
             sendFiles.Visible = false;
-
+            //后台启动发送
             SendBackground.RunWorkerAsync();
         }
 
@@ -2016,8 +2140,8 @@ namespace QQ
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)//用户点了确认
             {
                 showRefuselabel.Text = "等待对方选择文件";
-                saveFilePath= folderBrowserDialog.SelectedPath;//获取用户选定的保存文件夹
-                filePathTextbox.Text = "保存路径："+saveFilePath;
+                saveFilePath = folderBrowserDialog.SelectedPath;//获取用户选定的保存文件夹
+                filePathTextbox.Text = "保存路径：" + saveFilePath;
                 ReceiveFilePath = saveFilePath;
                 setSavePath.Visible = false;
                 SendFile sendFile = new SendFile();
@@ -2025,22 +2149,21 @@ namespace QQ
             }
         }
 
-
-        private void TimerSendPercentage_Tick(object sender, EventArgs e)
+        private void TimerSendPercentage_Tick(object sender, EventArgs e)//发送方发送百分比
         {
-            baifenbiLabel.Text = SendPercentage.ToString() + "%";
-            progressBar1.Value = SendPercentage;
-            if (SendPercentage==100)
+            baifenbiLabel.Text = SendPercentage.ToString("#0.00") + "%";
+            progressBar1.Value = (int)SendPercentage;
+
+            if (SendPercentage == 100)
             {
-                
                 timerSendPercentage.Stop();
             }
         }
 
-        private void TimerRecivePercentage_Tick(object sender, EventArgs e)
+        private void TimerRecivePercentage_Tick(object sender, EventArgs e)//接收方接收百分比
         {
-            baifenbiLabel.Text = ReceivePercentage.ToString() + "%";
-            progressBar1.Value = ReceivePercentage;
+            baifenbiLabel.Text = ReceivePercentage.ToString("#0.00") + "%";
+            progressBar1.Value = (int)ReceivePercentage;
 
             if (ReceivePercentage == 100)
             {
@@ -2050,49 +2173,53 @@ namespace QQ
 
         private void SendBackground_DoWork(object sender, DoWorkEventArgs e)
         {
-            
+
             SendFile send = new SendFile();
             ReceiveFile receiveFile = new ReceiveFile();
             string SendFriendIP = NowSendfileIP;
             FileInfo fileInfo = new FileInfo(filePath);
             //文件长度
             long FileLength = fileInfo.Length;
+            fileLength = FileLength;
+            fileSum = FileLength / 1400;
             ShowfilelengthLabel(FileLength);
-            send.SendFilestart(SendFriendIP, filePath, fileName, ref SendPercentage,ref SendStoptrueORfalse);
+            send.SendFilestart(SendFriendIP, filePath, fileName, ref SendPercentage, ref SendStoptrueORfalse);
             if (SendStoptrueORfalse == true)
             {
                 send.SendStop(SendFriendIP);
             }
         }
 
-        private void SendBackground_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void SendBackground_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)//发送工作完成后
         {
             ClosefilelengthLabel();
-            if (SendStoptrueORfalse==true)
+            if (SendStoptrueORfalse == true)//判断是否是被中断的
             {
-                timerSendPercentage.Stop();
+                SendPercentage = 0;
                 sendFilecancel.Visible = true;
                 stopSendButton.Visible = false;
                 timerSendSuccessSwitch.Start();
                 SendStoptrueORfalse = false;
                 SendTrueORFalse = false;
-                timerSendSuccessSwitch.Start();
+                timerSendPercentage.Stop();
             }
             else
             {
+                label10.Text = ((double)fileLength / ((double)(1024 * 1024))).ToString("#0.00") + "MB" + "/" + ((double)fileLength / ((double)(1024 * 1024))).ToString("#0.00") + "MB";
+                SendPercentage = 0;
+                SendStoptrueORfalse = false;
                 stopSendButton.Visible = false;
                 SendTrueORFalse = false;
                 ShowsendfilesButton();
                 timerSendSuccessSwitch.Start();
+                timerSendPercentage.Stop();
             }
-
-            
         }
 
         private void ReciveBackground_DoWork(object sender, DoWorkEventArgs e)
         {
             ReceiveFile receiveFile = new ReceiveFile();
-            receiveFile.ListenReceiveFile(fileLength, fileSum, saveFilePath, ReceiveFileName, ref ReceivePercentage,ref SendStoptrueORfalse);
+            receiveFile.ListenReceiveFile(fileLength, fileSum, saveFilePath, ReceiveFileName, ref ReceivePercentage, ref SendStoptrueORfalse);
 
         }
         private void Button1_Click_3(object sender, EventArgs e)
@@ -2102,7 +2229,6 @@ namespace QQ
             filePathTextbox.Text = "";
             openReceivePathpanel.Visible = false;
             PercentagePanel.Visible = false;
-            requestButton.Visible = true;
         }
 
         private void Button2_Click_1(object sender, EventArgs e)
@@ -2111,18 +2237,17 @@ namespace QQ
             openReceivePathpanel.Visible = false;
             PercentagePanel.Visible = false;
             filePathTextbox.Text = "";
-            requestButton.Visible = true;
-            baifenbiLabel.Text = "0" + "%";
-            progressBar1.Value = 0;
-        }                
+        }
 
-        private void ReciveBackground_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void ReciveBackground_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)//接收工作完成
         {
             ClosefilelengthLabel();
-            if (SendStoptrueORfalse == true)
+            if (SendStoptrueORfalse == true)//判断是否是被中断的
             {
+
                 ShowsendFilecancel();
                 CloseRefuselabel();
+                SendStoptrueORfalse = false;
                 SendTrueORFalse = false;
                 CloseopenRecivePathpanel();
                 ClosestopsendButton();
@@ -2131,10 +2256,14 @@ namespace QQ
                 ClosePercentagepanel();
                 ClosesendFilecancel();
                 ShowrequestButton1();
+                ReceivePercentage = 0;
+                timerRecivePercentage.Stop();
             }
             else
             {
+
                 CloseRefuselabel();
+                SendStoptrueORfalse = false;
                 SendTrueORFalse = false;
                 ShowsendfilesButton();
                 ClosestopsendButton();
@@ -2143,8 +2272,9 @@ namespace QQ
                 ClosePercentagepanel();
                 ClosesendFilecancel();
                 ShowrequestButton1();
+                ReceivePercentage = 0;
+                timerRecivePercentage.Stop();
             }
-           
         }
 
 
@@ -2155,14 +2285,12 @@ namespace QQ
             PercentagePanel.Visible = false;
             showRefuselabel.Visible = false;
             requestButton.Visible = true;
-            baifenbiLabel.Text = "0" + "%";
-            progressBar1.Value = 0;
             timerSendSuccessSwitch.Stop();
         }
 
         private void StopSendButton_Click(object sender, EventArgs e)
         {
-            if (FiletransferType=="Send")
+            if (FiletransferType == "Send")
             {
                 SendStoptrueORfalse = true;
                 stopSendButton.Visible = false;
@@ -2193,38 +2321,113 @@ namespace QQ
             requestButton.Visible = true;
             timerReceiveStopSwitch1.Stop();
         }
-
-    
-
-        private void Button4_Click(object sender, EventArgs e)
+        private void Button4_Click(object sender, EventArgs e)//窗口最小化
         {
             this.WindowState = FormWindowState.Minimized;
         }
 
-        private void Timerspeed_Tick(object sender, EventArgs e)
+        private void Timerspeed_Tick(object sender, EventArgs e)//实时显示速度
         {
             double NowByte = (Number - PassNumber) * 1400;
             PassNumber = Number;
-            if (NowByte>1024*1024)
+            if (Number!=0&&fileSum!=0)
             {
-                double speed = NowByte / (1024 * 1024 );
-                speedLabel.Text =speed.ToString("#0.000")+"MB/s";
+                label10.Text = (((double)Number * 1400) / (1024 * 1024)).ToString("#0.00") + "MB" + "/" + ((double)fileLength / ((double)(1024 * 1024))).ToString("#0.00") + "MB";
             }
-            else if (1024<NowByte&&NowByte<1024*1024)
+            if (NowByte > 1024 * 1024)
             {
-                double speed = NowByte / (1024 );
-                speedLabel.Text = speed.ToString("#0.000") +"KB/s";
+                double speed = (NowByte / (1024 * 1024)) * 2;
+                speedLabel.Text = speed.ToString("#0.00") + "MB/s";
+            }
+            else if (1024 < NowByte && NowByte < 1024 * 1024)
+            {
+                double speed = (NowByte / (1024)) * 2;
+                speedLabel.Text = speed.ToString("#0.00") + "KB/s";
+            }
+            else if (0 < NowByte && NowByte < 1024)
+            {
+                double speed = NowByte * 2;
+                speedLabel.Text = speed.ToString() + "B/s";
             }
             else
             {
-                double speed = NowByte;
-                speedLabel.Text=  speed.ToString() + "B/s";
+                double speed = 0;
+                speedLabel.Text = speed.ToString() + "B/s";
             }
 
-            if (SendPercentage==100||ReceivePercentage==100)
+            if (FiletransferType == "Send" && SendPercentage == 100)
+            {
+                timerspeed.Stop();
+            }
+            if (FiletransferType == "Receive" && ReceivePercentage == 100)
             {
                 timerspeed.Stop();
             }
         }
+
+        private void ChangeNamePasswordbutton_Click(object sender, EventArgs e)
+        {
+            ChangeShowUID.Text = userClass.publicUserUID;
+            ChangeNametextBox.Text = userClass.publicUsername;
+            ChangePasswordtextbox.Text = userClass.publicUserpassword;
+            Changepanel.Visible = true;
+        }
+
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            Changepanel.Visible = false;
+        }
+
+        private void Button5_Click(object sender, EventArgs e)
+        {
+            string directory_Path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Cytus2/Users";
+            DataSet dataSet = new DataSet();
+            dataSet.ReadXml(directory_Path + "/Users.xml");
+
+            foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+            {
+                if (dataRow[2].ToString() == ChangeShowUID.Text)
+                {
+                    dataRow[0] = ChangeNametextBox.Text;
+                    dataRow[1] = ChangePasswordtextbox.Text;
+                    userClass.publicUsername = ChangeNametextBox.Text;
+                    userClass.publicUserpassword = ChangePasswordtextbox.Text;
+                    userName.Text = ChangeNametextBox.Text;
+                }
+            }
+            dataSet.WriteXml(directory_Path + "/Users.xml");
+            Changepanel.Visible = false;
+        }
+
+        private void Button6_Click(object sender, EventArgs e)//清除所有聊天记录
+        {
+            string directory_Path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/Cytus2/Chatrecord";
+            if (Directory.Exists(directory_Path))
+            {
+
+                foreach (string f in Directory.GetFileSystemEntries(directory_Path))
+                {
+
+                    if (File.Exists(f))
+                    {
+                        //如果有子文件删除文件
+                        File.Delete(f);
+                        Console.WriteLine(f);
+                    }
+
+                }
+            }
+            chatRichTextBox.Text = "";
+            deleteSuccessLabel.Visible = true;
+            timerdeleteSuccess.Start();
+        }
+
+        private void TimerdeleteSuccess_Tick(object sender, EventArgs e)
+        {
+            deleteSuccessLabel.Visible = false;
+            timerdeleteSuccess.Stop();
+        }
+
+
     }
 }

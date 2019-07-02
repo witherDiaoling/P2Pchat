@@ -1,12 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QQ
 {
@@ -65,7 +61,7 @@ namespace QQ
         /// <summary>
         /// 本机用户名
         /// </summary>
-        public static string publicUsername="";
+        public static string publicUsername = "";
         /// <summary>
         /// 本机用户的密码
         /// </summary>
